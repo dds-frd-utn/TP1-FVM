@@ -1,7 +1,0 @@
-utn/frd/ejemplo/entity/Cliente.class
-utn/frd/ejemplo/resources/JavaEE8Resource.class
-utn/frd/ejemplo/sessions/AbstractFacade.class
-utn/frd/ejemplo/sessions/ClienteFacade.class
-utn/frd/ejemplo/JAXRSConfiguration.class
-utn/frd/ejemplo/rest/services/ClienteRest.class
-utn/frd/ejemplo/rest/services/ApplicationConfig.class
