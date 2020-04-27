@@ -1,4 +1,4 @@
-package utn.frd.ejemplo;
+package utn.frd.fvm;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

@@ -1,4 +1,4 @@
-package utn.frd.ejemplo.resources;
+package utn.frd.fvm.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
