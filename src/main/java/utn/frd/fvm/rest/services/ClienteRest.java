@@ -22,7 +22,7 @@ import utn.frd.fvm.sessions.ClienteFacade;
  *
  * @author federico
  */
-@Path("/cliente")
+@Path("/clientes")
 public class ClienteRest {
     @EJB
     private ClienteFacade ejbClienteFacade;

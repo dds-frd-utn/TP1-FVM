@@ -36,12 +36,6 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Transaccion.findByFecha", query = "SELECT t FROM Transaccion t WHERE t.fecha = :fecha")})
 public class Transaccion implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "cuentaOrigen")
@@ -53,7 +47,7 @@ public class Transaccion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "monto")
-    private int monto;
+    private float monto;
     @Basic(optional = false)
     @NotNull
     @Column(name = "tipoTransaccion")
@@ -64,6 +58,13 @@ public class Transaccion implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+
     public Transaccion() {
     }
 
@@ -71,8 +72,7 @@ public class Transaccion implements Serializable {
         this.id = id;
     }
 
-    public Transaccion(Integer id, int cuentaOrigen, int cuentaDestino, int monto, int tipoTransaccion, Date fecha) {
-        this.id = id;
+    public Transaccion(int cuentaOrigen, int cuentaDestino, float monto, int tipoTransaccion, Date fecha) {
         this.cuentaOrigen = cuentaOrigen;
         this.cuentaDestino = cuentaDestino;
         this.monto = monto;
@@ -86,6 +86,28 @@ public class Transaccion implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Transaccion)) {
+            return false;
+        }
+        Transaccion other = (Transaccion) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+    @Override
+    public String toString() {
+        return "utn.frd.fvm.entity.Transaccion[ id=" + id + " ]";
     }
 
     public int getCuentaOrigen() {
@@ -104,11 +126,11 @@ public class Transaccion implements Serializable {
         this.cuentaDestino = cuentaDestino;
     }
 
-    public int getMonto() {
+    public float getMonto() {
         return monto;
     }
 
-    public void setMonto(int monto) {
+    public void setMonto(float monto) {
         this.monto = monto;
     }
 
@@ -126,31 +148,6 @@ public class Transaccion implements Serializable {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Transaccion)) {
-            return false;
-        }
-        Transaccion other = (Transaccion) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "utn.frd.fvm.entity.Transaccion[ id=" + id + " ]";
     }
     
 }
