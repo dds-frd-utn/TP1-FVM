@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package utn.frd.fvm.rest.services;
+
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -15,53 +16,54 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import utn.frd.fvm.entity.Cliente;
-import utn.frd.fvm.sessions.ClienteFacade;
+import utn.frd.fvm.entity.Cuenta;
+import utn.frd.fvm.sessions.CuentaFacade;
 
 /**
  *
  * @author federico
  */
-@Path("/cliente")
-public class ClienteRest {
+@Path("cuentas")
+public class CuentaRest {
     @EJB
-    private ClienteFacade ejbClienteFacade;
+    private CuentaFacade ejbCuentaFacade;
     
-    //obtener todas las entidades
+    //Get all instances
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Cliente> findAll(){
-        return ejbClienteFacade.findAll();
+    public List<Cuenta> findAll() {
+        return ejbCuentaFacade.findAll();
     }
     
-    //crear entidades
+    //Create entity
     @POST
     @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Cliente cliente){
-        ejbClienteFacade.create(cliente);
+    public void create(Cuenta cuenta) {
+        ejbCuentaFacade.create(cuenta);
     }
     
-    //actualizar entidades
+    //Update entity
     @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/{id}")
-    public void edit(@PathParam("id")int id, Cliente cliente){
-        ejbClienteFacade.edit(cliente);
+    public void edit(@PathParam("id") int id, Cuenta cuenta) {
+        ejbCuentaFacade.edit(cuenta);
     }
     
-    //eliminar entidades
+    //Delete entity
     @DELETE
     @Consumes({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     @Path("/{id}")
-    public void remove(@PathParam("id")int id){
-        ejbClienteFacade.remove( ejbClienteFacade.find(id) );
+    public void remove(@PathParam("id") int id) {
+        ejbCuentaFacade.remove(ejbCuentaFacade.find(id));
     }
     
-    //obtener una entidad por id
+    //Get entity by id
     @GET
     @Path("/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Cliente findById(@PathParam("id")int id){
-        return ejbClienteFacade.find(id);
+    public Cuenta findById(@PathParam("id") int id) {
+        return ejbCuentaFacade.find(id);
     }
+    
 }
