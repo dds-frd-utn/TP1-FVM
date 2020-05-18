@@ -31,12 +31,6 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Cuenta.findByIdCliente", query = "SELECT c FROM Cuenta c WHERE c.idCliente = :idCliente")})
 public class Cuenta implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "cbu")
@@ -44,11 +38,18 @@ public class Cuenta implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "saldo")
-    private int saldo;
+    private float saldo;
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_cliente")
     private int idCliente;
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
 
     public Cuenta() {
     }
@@ -57,11 +58,16 @@ public class Cuenta implements Serializable {
         this.id = id;
     }
 
-    public Cuenta(Integer id, int cbu, int saldo, int idCliente) {
+    public Cuenta(Integer id, int cbu, float saldo, int idCliente) {
         this.id = id;
         this.cbu = cbu;
         this.saldo = saldo;
         this.idCliente = idCliente;
+    }
+    
+    public Cuenta(Integer id, float saldo) {
+        this.id = id;
+        this.saldo = saldo;
     }
 
     public Integer getId() {
@@ -72,21 +78,6 @@ public class Cuenta implements Serializable {
         this.id = id;
     }
 
-    public int getCbu() {
-        return cbu;
-    }
-
-    public void setCbu(int cbu) {
-        this.cbu = cbu;
-    }
-
-    public int getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(int saldo) {
-        this.saldo = saldo;
-    }
 
     public int getIdCliente() {
         return idCliente;
@@ -120,5 +111,20 @@ public class Cuenta implements Serializable {
     public String toString() {
         return "utn.frd.fvm.entity.Cuenta[ id=" + id + " ]";
     }
-    
+
+    public int getCbu() {
+        return cbu;
+    }
+
+    public void setCbu(int cbu) {
+        this.cbu = cbu;
+    }
+
+    public float getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(float saldo) {
+        this.saldo = saldo;
+    }
 }
