@@ -1,0 +1,16 @@
+.navbar {
+    background: linear-gradient(to top right, #524ad0 10%, #D099FA);
+}
+
+.navbar a h1 {
+    color: #fff;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.main-wrapper {
+    margin-top: 1.5em;
+}
