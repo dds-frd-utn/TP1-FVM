@@ -51,40 +51,96 @@
                     </div>
                 </div>
                 <div class="columns">
-                    <div class="column is-8 has-text-centered">
+                    <div class="column is-6">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-header-title">Acciones posibles</div>
+                                <div class="card-header-title">Realizar transferencia</div>
                             </div>
                             <div class="card-content">
                                 <div class="content">
-                                    <ul>
-                                        <li><strong>Faltan las funcionalidades</strong></li>
-                                        <li>Administrar cuentas</li>
-                                        <li>Realizar transferencia</li>
-                                        <li>Administrar bonos</li>
-                                    </ul>
+                                    <div class="columns is-centered">
+                                        <div class="column is-8">
+                                            <div class="field">
+                                                <label>Seleccione una cuenta</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select name="cuentas" id="cuentas">
+                                                            <option selected disabled>Seleccione una cuenta</option>
+                                                            <option>cuenta1</option>
+                                                            <option>cuenta2</option>
+                                                            <option>cuenta3</option>
+                                                            <option>cuenta4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label>Transferir a (Hay que pasar id, no cbu, por ahora)</label>
+                                                <div class="control">
+                                                    <input id="cuenta-destino" class="input" type="text" placeholder="CBU">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label>Monto</label>
+                                                <div class="control">
+                                                    <input id="monto" class="input" type="text" placeholder="Monto">
+                                                </div>
+                                            </div>
+                                            <button class="button primary-color">Realizar transferencia</button>
+                                        </div>
+                                    </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-                    <div class="column is-4 has-text-centered">
+                    <div class="column is-6">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-header-title">Datos del cliente</div>
+                                <div class="card-header-title">Comprar Bonos</div>
                             </div>
-                                <div class="card-content">
-                                    <div class="content">
-                                        <ul>
-                                            <li><strong>Falta mostrar los datos</strong></li>
-                                            <li>Nombre: </li>
-                                            <li>Usuario: </li>
-                                            <li>Direccion: </li>
-                                        </ul>
-
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="columns is-centered">
+                                        <div class="column is-8">
+                                            <div class="field">
+                                                <label>Seleccione una cuenta</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select name="cuentas" id="cuentas">
+                                                            <option selected disabled>Seleccione una cuenta</option>
+                                                            <option>cuenta1</option>
+                                                            <option>cuenta2</option>
+                                                            <option>cuenta3</option>
+                                                            <option>cuenta4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label>Seleccione un bono</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select name="cuentas" id="cuentas">
+                                                            <option selected disabled>Seleccione un bono</option>
+                                                            <option>Bono 1</option>
+                                                            <option>Bono 2</option>
+                                                            <option>Bono 3</option>
+                                                            <option>Bono 4</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label>Monto</label>
+                                                <div class="control">
+                                                    <input disabled class="input" type="text" placeholder="Monto">
+                                                </div>
+                                            </div>
+                                            <button id="realizar" class="button">Realizar transferencia</button>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>

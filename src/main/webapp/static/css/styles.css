@@ -6,6 +6,19 @@
     color: #fff;
 }
 
+.primary-color {
+    background: linear-gradient(to top right, #524ad0 10%, #d099fa);
+    color: #fff;
+}
+
+.primary-color:hover {
+    color: #fff;
+}
+
+.input:focus {
+    border-color: linear-gradient(to top right, #524ad0 10%, #d099fa) !important;
+}
+
 a {
     color: #fff;
     text-decoration: none;
