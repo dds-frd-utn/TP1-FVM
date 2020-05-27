@@ -43,7 +43,6 @@
             data: {"id":id,"nombre":nombre,"usuario":usuario,"direccion":direccion,"password":password},
             success: function(response) {
                 console.log(response);
-                window.location.replace("profile.html");
             },
             error: function(error) {
                 console.log(error)

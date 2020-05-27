@@ -65,19 +65,15 @@
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
                                                         <select name="cuentas" id="cuentas">
-                                                            <option selected disabled>Seleccione una cuenta</option>
-                                                            <option>cuenta1</option>
-                                                            <option>cuenta2</option>
-                                                            <option>cuenta3</option>
-                                                            <option>cuenta4</option>
+                                                            <option selected>Seleccione una cuenta</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="field">
-                                                <label>Transferir a (Hay que pasar id, no cbu, por ahora)</label>
+                                                <label>Transferir a (Hay que pasar id, no alias)</label>
                                                 <div class="control">
-                                                    <input id="cuenta-destino" class="input" type="text" placeholder="CBU">
+                                                    <input id="cuenta-destino" class="input" type="text" placeholder="ID (hay que cambiarlo a alias)">
                                                 </div>
                                             </div>
                                             <div class="field">
@@ -86,7 +82,7 @@
                                                     <input id="monto" class="input" type="text" placeholder="Monto">
                                                 </div>
                                             </div>
-                                            <button class="button primary-color">Realizar transferencia</button>
+                                            <button id="realizar" class="button primary-color">Realizar transferencia</button>
                                         </div>
                                     </div>
                                 </div>
@@ -106,12 +102,8 @@
                                                 <label>Seleccione una cuenta</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select name="cuentas" id="cuentas">
-                                                            <option selected disabled>Seleccione una cuenta</option>
-                                                            <option>cuenta1</option>
-                                                            <option>cuenta2</option>
-                                                            <option>cuenta3</option>
-                                                            <option>cuenta4</option>
+                                                        <select name="cuentas" id="cuentasBonos">
+                                                            <option selected>Seleccione una cuenta</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -120,7 +112,7 @@
                                                 <label>Seleccione un bono</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select name="cuentas" id="cuentas">
+                                                        <select name="cuentas">
                                                             <option selected disabled>Seleccione un bono</option>
                                                             <option>Bono 1</option>
                                                             <option>Bono 2</option>
@@ -136,7 +128,7 @@
                                                     <input disabled class="input" type="text" placeholder="Monto">
                                                 </div>
                                             </div>
-                                            <button id="realizar" class="button">Realizar transferencia</button>
+                                            <button id="comprarBonos" class="button">Realizar transferencia</button>
                                         </div>
                                     </div>
                                 </div>
@@ -149,6 +141,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/js/OverlayScrollbars.min.js'></script>
-        <script src="static/js/functions.js"></script>
+        <script src="../static/js/functions.js"></script>
+        <script src="../static/js/perfil.js"></script>
     </body>
 </html> 
