@@ -17,8 +17,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.json.JSONException;
-import org.json.JSONObject;
 import utn.frd.fvm.entity.Cuenta;
 import utn.frd.fvm.sessions.CuentaFacade;
 
@@ -67,6 +65,17 @@ public class CuentaRest {
     @Produces({MediaType.APPLICATION_JSON})
     public Cuenta findById(@PathParam("id") int id) {
         return ejbCuentaFacade.find(id);
+    }
+    
+    //Get all clienteId cuentas
+    @GET
+    @Path("/clientes/{idCliente}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Cuenta> findByIdCliente(@PathParam("idCliente") int idCliente) {
+        
+        Query query = ejbCuentaFacade.getEntityManager().createQuery("SELECT c from Cuenta c WHERE c.idCliente = "+idCliente);
+        List<Cuenta> cuentas = query.getResultList();
+        return cuentas;
     }
     
 }

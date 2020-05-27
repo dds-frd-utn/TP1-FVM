@@ -16,6 +16,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,15 +27,17 @@ import javax.validation.constraints.NotNull;
 @NamedQueries({
     @NamedQuery(name = "Cuenta.findAll", query = "SELECT c FROM Cuenta c"),
     @NamedQuery(name = "Cuenta.findById", query = "SELECT c FROM Cuenta c WHERE c.id = :id"),
-    @NamedQuery(name = "Cuenta.findByCbu", query = "SELECT c FROM Cuenta c WHERE c.cbu = :cbu"),
+    @NamedQuery(name = "Cuenta.findByAliasCuenta", query = "SELECT c FROM Cuenta c WHERE c.aliasCuenta = :aliasCuenta"),
     @NamedQuery(name = "Cuenta.findBySaldo", query = "SELECT c FROM Cuenta c WHERE c.saldo = :saldo"),
     @NamedQuery(name = "Cuenta.findByIdCliente", query = "SELECT c FROM Cuenta c WHERE c.idCliente = :idCliente")})
 public class Cuenta implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "cbu")
-    private int cbu;
+    @Size(min = 1, max = 17)
+    @Column(name = "aliasCuenta")
+    private String aliasCuenta;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "saldo")
@@ -58,9 +61,9 @@ public class Cuenta implements Serializable {
         this.id = id;
     }
 
-    public Cuenta(Integer id, int cbu, float saldo, int idCliente) {
+    public Cuenta(Integer id, String aliasCuenta, float saldo, int idCliente) {
         this.id = id;
-        this.cbu = cbu;
+        this.aliasCuenta = aliasCuenta;
         this.saldo = saldo;
         this.idCliente = idCliente;
     }
@@ -79,13 +82,6 @@ public class Cuenta implements Serializable {
     }
 
 
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
-    }
 
     @Override
     public int hashCode() {
@@ -112,12 +108,12 @@ public class Cuenta implements Serializable {
         return "utn.frd.fvm.entity.Cuenta[ id=" + id + " ]";
     }
 
-    public int getCbu() {
-        return cbu;
+    public String getAliasCuenta() {
+        return aliasCuenta;
     }
 
-    public void setCbu(int cbu) {
-        this.cbu = cbu;
+    public void setAliasCuenta(String aliasCuenta) {
+        this.aliasCuenta = aliasCuenta;
     }
 
     public float getSaldo() {
@@ -126,5 +122,13 @@ public class Cuenta implements Serializable {
 
     public void setSaldo(float saldo) {
         this.saldo = saldo;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 }

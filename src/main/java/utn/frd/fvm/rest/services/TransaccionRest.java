@@ -79,57 +79,19 @@ public class TransaccionRest {
     @Path("/realizar")
     public String realizarTransaccion(String transaccion) {
         JSONObject transaccionJson = new JSONObject(transaccion);
-        int cuentaOrigen = transaccionJson.getInt("cuenta_origen");
-        int cuentaDestino = transaccionJson.getInt("cuenta_destino");
-        int tipoTransaccion = transaccionJson.getInt("tipo_transaccion");
+        int cuentaOrigen = transaccionJson.getInt("cuentaOrigen");
+        int cuentaDestino = transaccionJson.getInt("cuentaDestino");
+        int tipoTransaccion = transaccionJson.getInt("tipoTransaccion");
         float monto = transaccionJson.getFloat("monto");
         Date fecha = new Date();
         
         //Transaccion a realizar
         Transaccion transaccionObject = new Transaccion(cuentaOrigen,cuentaDestino,monto,tipoTransaccion,fecha);
+        
+        ejbTransaccionFacade.create(transaccionObject);
+        
+        return "Realizado";
 
-        HttpConnection req = new HttpConnection();
-
-        //Datos de cuentas emisora y receptora
-        String datosOrigen = req.httpRequest("http://localhost:8080/Banco-FVM/rest/cuentas/"+cuentaOrigen,"GET",new JSONObject());
-        String datosDestino = req.httpRequest("http://localhost:8080/Banco-FVM/rest/cuentas/"+cuentaDestino,"GET",new JSONObject());
-        
-        //Verificar que el emisor tenga fondos suficientes
-        JSONObject resJsonOrigen = new JSONObject(datosOrigen);
-        JSONObject resJsonDestino = new JSONObject(datosDestino);
-        int saldoDisponible = resJsonOrigen.getInt("saldo");
-        
-        if (saldoDisponible >= monto) {
-            float impuesto = 0.1f;
-            switch(tipoTransaccion) {
-                case 0: //Transferencia entre pares (no es compra/venta)
-                    //Se deduce el monto de la cuenta del emisor y se añade a la del receptor
-                    float newSaldoOrigen = resJsonOrigen.getFloat("saldo")-monto;
-                    float newSaldoDestino = resJsonDestino.getFloat("saldo")+monto;
-                    
-                    JSONObject newOrigen = new JSONObject();
-                    newOrigen.put("id", resJsonOrigen.getInt("id"));
-                    newOrigen.put("cbu", resJsonOrigen.getInt("cbu"));
-                    newOrigen.put("idCliente", resJsonOrigen.getInt("idCliente"));
-                    newOrigen.put("saldo", newSaldoOrigen);
-                    
-                    
-                    req.httpRequest("http://localhost:8080/Banco-FVM/rest/cuentas/"+cuentaOrigen, "PUT", newOrigen);
-//                    req.httpRequest("http://localhost:8080/Banco-FVM/rest/cuentas/"+cuentaDestino, "PUT", newDestino);
-                    ejbTransaccionFacade.create(transaccionObject);
-                    return "Transferencia completada";
-                case 1: //compra - venta
-                case 2:
-                    break;
-                case 3: //Pago por celular
-                    break;
-                case 4: //Compra de bonos
-            }
-        } else {
-            return "Saldo insuficiente";
-        }
-        
-        return "Saldo disponible: " + saldoDisponible;
     }
     
     //Ultimas transacciones realizadas

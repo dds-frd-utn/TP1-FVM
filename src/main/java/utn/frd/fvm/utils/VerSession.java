@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,14 +26,14 @@ import org.json.JSONObject;
 public class VerSession extends HttpServlet {
     private static final long serialVersionUID = 1L;
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession currentSession = (HttpSession) request.getSession();
         
         JSONObject usuario = new JSONObject();
         
         try {
             usuario
-                .put("idCliente", Integer.parseInt((String) currentSession.getAttribute("idCliente")))
+                .put("idCliente",Integer.parseInt((String) currentSession.getAttribute("idCliente")))
                 .put("nombre", (String) currentSession.getAttribute("nombre"))
                 .put("usuario", (String) currentSession.getAttribute("usuario"))
                 .put("direccion", (String) currentSession.getAttribute("direccion"))

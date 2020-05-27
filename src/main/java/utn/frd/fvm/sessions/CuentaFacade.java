@@ -21,7 +21,7 @@ public class CuentaFacade extends AbstractFacade<Cuenta> {
     private EntityManager em;
 
     @Override
-    protected EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         return em;
     }
 
