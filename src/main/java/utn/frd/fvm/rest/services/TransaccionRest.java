@@ -133,10 +133,10 @@ public class TransaccionRest {
     }
     
     //Ultimas transacciones realizadas
-    @Path("/ultimas/{id}/{cantidad}")
+    @Path("/ultimas/{idCuenta}/{cantidad}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getUltimasTransacciones(@PathParam("id") int id, @PathParam("cantidad") int cantidad) {
+    public String getUltimasTransacciones(@PathParam("idCuenta") int id, @PathParam("cantidad") int cantidad) {
         //Filtrar las transacciones por su idCuenta
         Query query = ejbTransaccionFacade.getEntityManager().createQuery("SELECT c from Transaccion c WHERE c.cuentaOrigen = "+id+" OR c.cuentaDestino = "+id+" ORDER BY c.fecha DESC");
         query.setMaxResults(cantidad);

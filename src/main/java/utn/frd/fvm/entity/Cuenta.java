@@ -41,7 +41,7 @@ public class Cuenta implements Serializable {
     private float saldo;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "id_cliente")
+    @Column(name = "idCliente")
     private int idCliente;
 
     private static final long serialVersionUID = 1L;
