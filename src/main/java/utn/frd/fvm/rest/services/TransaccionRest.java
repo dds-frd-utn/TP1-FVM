@@ -90,7 +90,7 @@ public class TransaccionRest {
         
         ejbTransaccionFacade.create(transaccionObject);
         
-        return "Realizado";
+        return "Transaccion realizada";
 
     }
     

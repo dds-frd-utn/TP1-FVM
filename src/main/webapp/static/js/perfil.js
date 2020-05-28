@@ -3,27 +3,31 @@ $(document).ready(function() {
     let idCliente = getSession()
     
     let cuentas = getCuentas(idCliente);
-    
     //Agrego las cuentas del cliente a los desplegables
     mostrarCuentas(cuentas);
         
     $("#realizar").click(function(e) {
         e.preventDefault();
-        
+                
         let cuentaOrigen = $('#cuentas option').filter(':selected').val()
         let cuentaDestino = $("#cuenta-destino").val()
-        let monto = $("#monto").val()
+        let monto = parseFloat($("#monto").val())
 
-        console.log(cuentaOrigen)
-        console.log(cuentaDestino)
-        console.log(monto)
-
+         let cuentaActual = cuentas.find(cuenta => cuenta.id == cuentaOrigen)
+        
         if(verificarSaldo(cuentaOrigen, monto)) {
             //Realizar transferencia
-            //realizarTransferencia(cuentaOrigen, cuentaDestino, monto)
+            realizarTransferencia(cuentaOrigen, cuentaDestino, monto)
+            
+            //Actualizar saldos de las cuentas involucradas
+            actualizarSaldo(cuentaActual, -monto)
+            let cDestino = getCuentaDestino(cuentaDestino)
+            actualizarSaldo(cDestino, monto)
         } else {
             //Saldo insuficiente
+            alert('Saldo insuficiente')
         }
+        window.location.replace('transaccion-realizada.html')
     });
 })
 
@@ -53,15 +57,18 @@ function getSession() {
 }
 
 function verificarSaldo(origen, monto) {
+    let suficiente = false
     $.ajax({
         url: 'http://localhost:8080/Banco-FVM/rest/cuentas/'+origen,
         type:'get',
         contentType: 'application/json',
         dataType: 'json',
+        async: false,
         success: function(response) {
-            return response.saldo >= monto
+            suficiente = response.saldo >= monto
         }
     })
+    return suficiente
 }
 
 function realizarTransferencia(origen, destino, monto) {
@@ -90,49 +97,60 @@ function realizarTransferencia(origen, destino, monto) {
 }
 
 function getCuentas(idCliente) {
-    let cuentas = [];
+    let cuentas = new Array()
     $.ajax({
         url: 'http://localhost:8080/Banco-FVM/rest/cuentas/clientes/'+idCliente,
         type: 'get',
-        contentType: 'appliction/json',
+        contentType: 'application/json',
         dataType: 'json',
         async: false,
         success: function(data) {
             cuentas = data
         },
         error: function(error) {
-            console.log(error)
+            //console.log(error)
         }
     })
     return cuentas;
 }
 
-function actualizarSaldo(idCuenta, idCliente, diferencia) {
-
-    //obtener la cuenta a actualizar
-    //let cuenta = getCuentas(idCliente).filter(idCuenta)
-
+function actualizarSaldo(cuenta, diferencia) {
+    let nuevoSaldo = cuenta.saldo + diferencia;
     //actualizar datos
     let cuentaUpdated = {
-        'id': idCuenta,
-        'alias': cuenta['alias'],
-        'saldo': cuenta['saldo'] + diferencia,
-        'idCliente': idCliente
+        'id': cuenta.id,
+        'aliasCuenta': cuenta.aliasCuenta,
+        'saldo': nuevoSaldo,
+        'idCliente': cuenta.idCliente
     }
 
     //enviar informacion mediante ajax
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/' + idCuenta,
+        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/' + cuenta.id,
         type: 'put',
         contentType: 'application/json',
         dataType: 'json',
-        data: cuentaUpdated,
-        success: function(res) {
-            console.log('cuenta actualizada: ' + res)
-        },
+        data: JSON.stringify(cuentaUpdated),
+        async: false,
         error: function(error) {
             console.log(error)
         }
 
     })
+}
+
+function getCuentaDestino(idCuenta) {
+    let cuenta;
+    $.ajax({
+        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/' + idCuenta,
+        type: 'get',
+        contentType: 'application/json',
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+            console.log(data)
+            cuenta = data
+        }
+    })
+    return cuenta;
 }

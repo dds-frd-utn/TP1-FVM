@@ -17,6 +17,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import utn.frd.fvm.entity.Cuenta;
 import utn.frd.fvm.sessions.CuentaFacade;
 
@@ -71,11 +73,22 @@ public class CuentaRest {
     @GET
     @Path("/clientes/{idCliente}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Cuenta> findByIdCliente(@PathParam("idCliente") int idCliente) {
+    public String findByIdCliente(@PathParam("idCliente") int idCliente) {
         
         Query query = ejbCuentaFacade.getEntityManager().createQuery("SELECT c from Cuenta c WHERE c.idCliente = "+idCliente);
         List<Cuenta> cuentas = query.getResultList();
-        return cuentas;
+        
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < cuentas.size(); i++){
+            JSONObject myJsonObject = new JSONObject();
+            myJsonObject.put("id", cuentas.get(i).getId());
+            myJsonObject.put("aliasCuenta", cuentas.get(i).getAliasCuenta());
+            myJsonObject.put("saldo", cuentas.get(i).getSaldo());
+            myJsonObject.put("idCliente", cuentas.get(i).getIdCliente());
+            jsonArray.put(myJsonObject);
+        }
+        
+        return jsonArray.toString();
     }
     
 }
