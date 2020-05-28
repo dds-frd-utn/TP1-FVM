@@ -6,5 +6,6 @@
     <class>utn.frd.fvm.entity.Cliente</class>
     <class>utn.frd.fvm.entity.Cuenta</class>
     <class>utn.frd.fvm.entity.Transaccion</class>
+    <class>utn.frd.fvm.entity.Bonos</class>
   </persistence-unit>
 </persistence>
