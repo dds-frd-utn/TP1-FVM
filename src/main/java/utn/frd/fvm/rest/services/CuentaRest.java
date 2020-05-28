@@ -8,6 +8,7 @@ package utn.frd.fvm.rest.services;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -67,6 +68,18 @@ public class CuentaRest {
     @Produces({MediaType.APPLICATION_JSON})
     public Cuenta findById(@PathParam("id") int id) {
         return ejbCuentaFacade.find(id);
+    }
+
+    //Get entity by aliasCuenta
+    @GET
+    @Path("/alias/{aliasCuenta}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Cuenta findByAliasCuenta(@PathParam("aliasCuenta") String aliasCuenta) {
+        List<Cuenta> query = ejbCuentaFacade.getEntityManager().createNamedQuery("Cuenta.findByAliasCuenta", Cuenta.class)
+        .setParameter("aliasCuenta", aliasCuenta)
+        .getResultList();
+        return query.isEmpty() ? null : query.get(0);
+        //Uso getResultList y no getSingleResult para poder devolver null en caso de que falle, y evitar una exception
     }
     
     //Get all clienteId cuentas

@@ -27,3 +27,19 @@ a {
 .main-wrapper {
     margin-top: 1.5em;
 }
+
+.insuficiente {
+    color: red;
+    border-color: red;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 1.2em;
+    color: #c8102e;
+}
+
+.no-mostrar {
+    display: none;
+}

@@ -29,3 +29,8 @@ $(document).ready(function() {
 
     });
 });
+
+$(".modal-close").click(function() {
+    $(".modal").removeClass("is-active")
+    $("#monto").val('')
+})

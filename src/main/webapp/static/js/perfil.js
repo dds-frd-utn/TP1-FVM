@@ -1,16 +1,21 @@
 $(document).ready(function() {
     
-    let idCliente = getSession()
+    let cliente = getSession()
     
-    let cuentas = getCuentas(idCliente);
+    $(".id-cliente").text(cliente.idCliente)
+    $(".id-usuario").text(cliente.usuario)
+    $(".id-nombre").text(cliente.nombre)
+    $(".id-direccion").text(cliente.direccion)
+    
+    let cuentas = getCuentas(cliente.idCliente);
     //Agrego las cuentas del cliente a los desplegables
     mostrarCuentas(cuentas);
-        
+    
     $("#realizar").click(function(e) {
         e.preventDefault();
                 
         let cuentaOrigen = $('#cuentas option').filter(':selected').val()
-        let cuentaDestino = $("#cuenta-destino").val()
+        let cuentaDestino = $("#cuenta-destino").val().toUpperCase()
         let monto = parseFloat($("#monto").val())
 
          let cuentaActual = cuentas.find(cuenta => cuenta.id == cuentaOrigen)
@@ -23,12 +28,23 @@ $(document).ready(function() {
             actualizarSaldo(cuentaActual, -monto)
             let cDestino = getCuentaDestino(cuentaDestino)
             actualizarSaldo(cDestino, monto)
+            window.location.replace('transaccion-realizada.html')
         } else {
-            //Saldo insuficiente
-            alert('Saldo insuficiente')
+           $(".modal").addClass('is-active')
         }
-        window.location.replace('transaccion-realizada.html')
+        
     });
+    
+    $("#btn-transferencia").click(function() {
+        $("#transferencia").removeClass('no-mostrar')
+        $("#bonos").addClass('no-mostrar')
+    })
+    
+    $("#btn-bonos").click(function() {
+        $("#bonos").removeClass('no-mostrar')
+        $("#transferencia").addClass('no-mostrar')
+    })
+    
 })
 
 function mostrarCuentas(cuentas) {
@@ -39,7 +55,7 @@ function mostrarCuentas(cuentas) {
 }
 
 function getSession() {
-    let id = 0;
+    let cliente;
     $.ajax({
         url: 'http://localhost:8080/Banco-FVM/VerSession',
         type: 'get',
@@ -47,13 +63,13 @@ function getSession() {
         dataType: 'json',
         async: false,
         success: function(data) {
-            id = data.idCliente
+            cliente = data
         },
         error: function(error) {
             console.log(error)
         }
     })
-    return id;
+    return cliente;
 }
 
 function verificarSaldo(origen, monto) {
@@ -139,10 +155,10 @@ function actualizarSaldo(cuenta, diferencia) {
     })
 }
 
-function getCuentaDestino(idCuenta) {
+function getCuentaDestino(alias) {
     let cuenta;
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/' + idCuenta,
+        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/alias/' + alias,
         type: 'get',
         contentType: 'application/json',
         dataType: 'json',
