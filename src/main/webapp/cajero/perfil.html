@@ -30,13 +30,10 @@
             <div class="navbar-menu">
                 <div class="navbar-end">
                     <div class="navbar-item">
+                        <p style="color:white;">Bienvenido, <span class="id-usuario"></span></p>
+                    </div>
+                    <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-small is-dark no-mostrar" href="login.html">
-                                Iniciar Sesion
-                            </a>
-                            <a class="button is-small is-light no-mostrar" href="signup.html">
-                                Registrarse
-                            </a>
                             <a class="button is-small is-light" href="logout.html">
                                 Cerrar Sesion
                             </a>
@@ -55,7 +52,7 @@
                               Mi Cuenta
                             </p>
                             <ul class="menu-list">
-                                <li><a>Ultimos movimientos</a></li>
+                                <li id="btn-ultimos-movimientos"><a>Ultimos movimientos</a></li>
                                 <li id="btn-transferencia"><a>Transferencia</a></li>
                                 <li id="btn-bonos"><a>Bonos</a></li>
                             </ul>
@@ -112,7 +109,7 @@
                                                 <label>Seleccione una cuenta</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select name="cuentas" id="cuentasBonos">
+                                                        <select name="bonos" id="selectCuentaBono">
                                                             <option selected>Seleccione una cuenta</option>
                                                         </select>
                                                     </div>
@@ -122,12 +119,8 @@
                                                 <label>Seleccione un bono</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select name="cuentas">
-                                                            <option selected disabled>Seleccione un bono</option>
-                                                            <option>Bono 1</option>
-                                                            <option>Bono 2</option>
-                                                            <option>Bono 3</option>
-                                                            <option>Bono 4</option>
+                                                        <select name="cuentas" id="selectBono">
+                                                            <option selected>Seleccione un bono</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -135,10 +128,44 @@
                                             <div class="field">
                                                 <label>Monto</label>
                                                 <div class="control">
-                                                    <input disabled class="input" type="text" placeholder="Monto">
+                                                    <input id="cantidadBonos" class="input" type="text" placeholder="Cantidad de bonos">
                                                 </div>
                                             </div>
                                             <button id="comprarBonos" class="button primary-color">Comprar Bonos</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ultimos-movimientos" class="column is-6 no-mostrar">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-title">Ultimos Movimientos</div>
+                            </div>
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="columns is-centered">
+                                        <div class="column is-8">
+                                            <div class="field">
+                                                <label>Seleccione una cuenta</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select name="ultimos" id="ultimosMovSelect">
+                                                            <option selected>Seleccione una cuenta</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label>Cantidad de movimientos</label>
+                                                <div class="control">
+                                                    <input id="cantidad" class="input" type="text" placeholder="Cantidad">
+                                                </div>
+                                            </div>
+                                            <button id="verUltimosMovimientos" class="button primary-color">Ultimos movimientos</button>
+                                            <div class="lista-ultimos-mov">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -43,3 +43,12 @@ a {
 .no-mostrar {
     display: none;
 }
+
+.main-buttons {
+    text-align: center;
+}
+
+.main-buttons button {
+    vertical-align: middle;
+    margin: 0.5em 0;
+}
