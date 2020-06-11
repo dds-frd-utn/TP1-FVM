@@ -23,32 +23,29 @@ import javax.validation.constraints.Size;
  * @author federico
  */
 @Entity
-@Table(name = "clientes")
+@Table(name = "cuentas")
 @NamedQueries({
-    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c"),
-    @NamedQuery(name = "Cliente.findById", query = "SELECT c FROM Cliente c WHERE c.id = :id"),
-    @NamedQuery(name = "Cliente.findByNombre", query = "SELECT c FROM Cliente c WHERE c.nombre = :nombre"),
-    @NamedQuery(name = "Cliente.findByDireccion", query = "SELECT c FROM Cliente c WHERE c.direccion = :direccion")})
-public class Cliente implements Serializable {
+    @NamedQuery(name = "Cuenta.findAll", query = "SELECT c FROM Cuenta c"),
+    @NamedQuery(name = "Cuenta.findById", query = "SELECT c FROM Cuenta c WHERE c.id = :id"),
+    @NamedQuery(name = "Cuenta.findByAliasCuenta", query = "SELECT c FROM Cuenta c WHERE c.aliasCuenta = :aliasCuenta"),
+    @NamedQuery(name = "Cuenta.findBySaldo", query = "SELECT c FROM Cuenta c WHERE c.saldo = :saldo"),
+    @NamedQuery(name = "Cuenta.findByIdCliente", query = "SELECT c FROM Cuenta c WHERE c.idCliente = :idCliente")})
+public class Cuenta implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
-    @Column(name = "nombre")
-    private String nombre;
-    @Size(max = 255)
-    @Column(name = "direccion")
-    private String direccion;
+    @Size(min = 1, max = 17)
+    @Column(name = "aliasCuenta")
+    private String aliasCuenta;
+    
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "usuario")
-    private String usuario;
+    @Column(name = "saldo")
+    private float saldo;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
-    @Column(name = "password")
-    private String password;
+    @Column(name = "idCliente")
+    private int idCliente;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,16 +54,23 @@ public class Cliente implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    public Cliente() {
+    public Cuenta() {
     }
 
-    public Cliente(Integer id) {
+    public Cuenta(Integer id) {
         this.id = id;
     }
 
-    public Cliente(Integer id, String nombre) {
+    public Cuenta(Integer id, String aliasCuenta, float saldo, int idCliente) {
         this.id = id;
-        this.nombre = nombre;
+        this.aliasCuenta = aliasCuenta;
+        this.saldo = saldo;
+        this.idCliente = idCliente;
+    }
+    
+    public Cuenta(Integer id, float saldo) {
+        this.id = id;
+        this.saldo = saldo;
     }
 
     public Integer getId() {
@@ -76,6 +80,7 @@ public class Cliente implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
 
     @Override
@@ -88,10 +93,10 @@ public class Cliente implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Cliente)) {
+        if (!(object instanceof Cuenta)) {
             return false;
         }
-        Cliente other = (Cliente) object;
+        Cuenta other = (Cuenta) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -100,39 +105,30 @@ public class Cliente implements Serializable {
 
     @Override
     public String toString() {
-        return "utn.frd.ejemplo.entity.Cliente[ id=" + id + " ]";
+        return "utn.frd.fvm.entity.Cuenta[ id=" + id + " ]";
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getAliasCuenta() {
+        return aliasCuenta;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setAliasCuenta(String aliasCuenta) {
+        this.aliasCuenta = aliasCuenta;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public float getSaldo() {
+        return saldo;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setSaldo(float saldo) {
+        this.saldo = saldo;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
 }

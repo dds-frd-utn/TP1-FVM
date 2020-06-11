@@ -8,14 +8,14 @@ package utn.frd.fvm.sessions;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import utn.frd.fvm.entity.Cliente;
+import utn.frd.fvm.entity.Transaccion;
 
 /**
  *
  * @author federico
  */
 @Stateless
-public class ClienteFacade extends AbstractFacade<Cliente> {
+public class TransaccionFacade extends AbstractFacade<Transaccion> {
 
     @PersistenceContext(unitName = "my_persistence_unit")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class ClienteFacade extends AbstractFacade<Cliente> {
         return em;
     }
 
-    public ClienteFacade() {
-        super(Cliente.class);
+    public TransaccionFacade() {
+        super(Transaccion.class);
     }
     
 }
