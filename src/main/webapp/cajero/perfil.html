@@ -53,13 +53,58 @@
                               Mi Cuenta
                             </p>
                             <ul class="menu-list">
+                                <li id="btn-gestionar-cuentas"><a>Gestionar cuentas</a></li>
                                 <li id="btn-ultimos-movimientos"><a>Ultimos movimientos</a></li>
                                 <li id="btn-transferencia"><a>Transferencia</a></li>
                                 <li id="btn-bonos"><a>Bonos</a></li>
                             </ul>
                         </aside>
                     </div>
-                    <div id="transferencia" class="column is-6">
+                    <!-- Gestionar cuentas -->
+                    <div id="gestionarCuentas" class="column is-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-title">Gestionar cuentas</div>
+                            </div>
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="columns is-centered">
+                                        <div class="column is-8">
+                                            <div class="field">
+                                                <label>Seleccione una cuenta</label>
+                                                <div class="control">
+                                                    <div class="select is-fullwidth">
+                                                        <select id="selectCuentasGestionarCuentas" class="selectCuentas" name="cuentas">
+                                                            <option selected>Seleccione una cuenta</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button id="verDatosCuenta" class="button primary-color">Ver datos de cuenta</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+                        <div class="card no-mostrar infoCuenta">
+                            <div class="card-header">
+                                <div class="card-header-title"><span id="aliasCuenta"></span></div>
+                            </div>
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="columns">
+                                        <div class="column is-8">
+                                            <p id="idCuenta"></p>
+                                            <p id="saldoCuenta"></p>
+                                            <p id="idCliente"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Transferencias -->
+                    <div id="transferencia" class="column is-6 no-mostrar">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-header-title">Realizar transferencia</div>
@@ -72,7 +117,7 @@
                                                 <label>Seleccione una cuenta</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select name="cuentas" id="cuentas">
+                                                        <select id="selectCuentasTransferencia" class="selectCuentas" name="cuentas">
                                                             <option selected>Seleccione una cuenta</option>
                                                         </select>
                                                     </div>
@@ -81,7 +126,7 @@
                                             <div class="field">
                                                 <label>Transferir a:</label>
                                                 <div class="control">
-                                                    <input id="cuenta-destino" class="input" type="text" placeholder="Ingresar Alias">
+                                                    <input id="cuentaDestino" class="input" type="text" placeholder="Ingresar Alias">
                                                 </div>
                                             </div>
                                             <div class="field">
@@ -97,6 +142,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Compra de bonos -->
                     <div id="bonos" class="column is-6 no-mostrar">
                         <div class="card">
                             <div class="card-header">
@@ -109,8 +155,8 @@
                                             <div class="field">
                                                 <label>Seleccione una cuenta</label>
                                                 <div class="control">
-                                                    <div class="select is-fullwidth">
-                                                        <select name="bonos" id="selectCuentaBono">
+                                                    <div id="selectCuentasCompraBonos" class="select is-fullwidth">
+                                                        <select class="selectCuentas" name="cuentas">
                                                             <option selected>Seleccione una cuenta</option>
                                                         </select>
                                                     </div>
@@ -120,7 +166,7 @@
                                                 <label>Seleccione un bono</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select name="cuentas" id="selectBono">
+                                                        <select name="bonos" id="selectBono">
                                                             <option selected>Seleccione un bono</option>
                                                         </select>
                                                     </div>
@@ -139,6 +185,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Ver ultimos movimientos -->
                     <div id="ultimos-movimientos" class="column is-6 no-mostrar">
                         <div class="card">
                             <div class="card-header">
@@ -152,7 +199,7 @@
                                                 <label>Seleccione una cuenta</label>
                                                 <div class="control">
                                                     <div class="select is-fullwidth">
-                                                        <select name="ultimos" id="ultimosMovSelect">
+                                                        <select id="selectCuentasUltMov" class="selectCuentas" name="cuentas">
                                                             <option selected>Seleccione una cuenta</option>
                                                         </select>
                                                     </div>
@@ -173,6 +220,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Informacion personal -->
                     <div class="column is-4">
                         <div class="card">
                             <div class="card-header">
