@@ -11,34 +11,44 @@ $(document).ready(function() {
     //Agrego los bonos al desplegable
     mostrarBonos()
     
+    //Gestionar cuentas
+    $("#verDatosCuenta").click(function(e) {
+        e.preventDefault();
+        let idCuenta = $("#selectCuentasGestionarCuentas option").filter(':selected').val()
+        let cuentaActual = cuentas.find(cuenta => cuenta.id == idCuenta)
+        mostrarInfoCuenta(cuentaActual)
+    })
+    
     //Realizar transferencia
     $("#realizar").click(function(e) {
         e.preventDefault();
                 
-        let cuentaOrigen = $('#cuentas option').filter(':selected').val()
-        let cuentaDestino = $("#cuenta-destino").val().toUpperCase()
+        let cuentaOrigen = $('#selectCuentasTransferencia option').filter(':selected').val()
+        let cuentaDestino = $("#cuentaDestino").val().toUpperCase()
         let monto = parseFloat($("#monto").val())
 
-         let cuentaActual = cuentas.find(cuenta => cuenta.id == cuentaOrigen)
+        let cuentaActual = cuentas.find(cuenta => cuenta.id == cuentaOrigen)
         
         if(verificarSaldo(cuentaOrigen, monto)) {
+            
+            //Busco la cuenta de destino por el alias
+            let destinoActual = getCuentaDestinoByAlias(cuentaDestino);
             //Realizar transferencia
-            realizarTransaccion(cuentaOrigen, cuentaDestino, monto)
+            realizarTransaccion(cuentaOrigen, destinoActual.id, monto);
             
             //Actualizar saldos de las cuentas involucradas
-            actualizarSaldo(cuentaActual, -monto)
-            let cDestino = getCuentaDestino(cuentaDestino)
-            actualizarSaldo(cDestino, monto)
-            window.location.replace('transaccion-realizada.html')
+            actualizarSaldo(cuentaActual, -monto);
+            actualizarSaldo(destinoActual, monto);
+            window.location.replace('transaccion-realizada.html');
         } else {
-           $(".modal").addClass('is-active')
+           $(".modal").addClass('is-active');
         }
         
     });
     
     //Realizar compra de bonos
     $("#comprarBonos").click(function() {
-        let cuentaOrigen = $('#selectCuentaBono option').filter(':selected').val()
+        let cuentaOrigen = $('#selectCuentasCompraBonos option').filter(':selected').val()
         let idBono = $("#selectBono option").filter(':selected').val()
         let cantidad = $("#cantidadBonos").val()
         
@@ -59,29 +69,40 @@ $(document).ready(function() {
     
     //Ver ultimos n movimientos 
     $("#verUltimosMovimientos").click(function(){
-        let idCuenta = $('#ultimosMovSelect option').filter(':selected').val()
+        let idCuenta = $('#selectCuentasUltMov option').filter(':selected').val()
         console.log(idCuenta)
         let cantidad = parseInt($("#cantidad").val())
         getUltimosMovimientos(idCuenta, cantidad)
     })
     
     //Botones del menu lateral
+    $("#btn-gestionar-cuentas").click(function() {
+        $("#gestionarCuentas").removeClass('no-mostrar')
+        $("#transferencia").addClass('no-mostrar')
+        $("#bonos").addClass('no-mostrar')
+        $("#ultimos-movimientos").addClass('no-mostrar')
+
+    })
+    
     $("#btn-transferencia").click(function() {
         $("#transferencia").removeClass('no-mostrar')
         $("#ultimos-movimientos").addClass('no-mostrar')
         $("#bonos").addClass('no-mostrar')
+        $("#gestionarCuentas").addClass('no-mostrar')
     })
     
     $("#btn-bonos").click(function() {
         $("#bonos").removeClass('no-mostrar')
         $("#ultimos-movimientos").addClass('no-mostrar')
         $("#transferencia").addClass('no-mostrar')
+        $("#gestionarCuentas").addClass('no-mostrar')
     })
     
     $("#btn-ultimos-movimientos").click(function() {
         $("#ultimos-movimientos").removeClass('no-mostrar')
         $("#bonos").addClass('no-mostrar')
         $("#transferencia").addClass('no-mostrar')
+        $("#gestionarCuentas").addClass('no-mostrar')
     })
     
 })
@@ -125,7 +146,7 @@ function getUltimosMovimientos(idCuenta, cantidad) {
 function mostrarCuentas(cuentas) {
     for(c in cuentas) { //c es el indice
         let option = new Option(cuentas[c].aliasCuenta,cuentas[c].id); 
-        $('#cuentas,#selectCuentaBono,#ultimosMovSelect').append($(option));
+        $(".selectCuentas").append($(option));
     }
 }
 
@@ -185,8 +206,8 @@ function realizarTransaccion(origen, destino, monto) {
         "cuentaDestino": destino,
         "monto": monto,
         "tipoTransaccion": 0,
-        "fecha": new Date(),
-    }
+        "fecha": Date.now()
+    };
     
     $.ajax({
         url: 'http://localhost:8080/Banco-FVM/rest/transacciones/realizar',
@@ -195,10 +216,10 @@ function realizarTransaccion(origen, destino, monto) {
         dataType: 'json',
         data: JSON.stringify(transferencia),
         success: function(res) {
-            console.log("Transferencia realizada")
+            console.log("Transferencia realizada");
         },
         error: function(error) {
-            console.log(error)
+            console.log(error);
         }
     })
 }
@@ -261,7 +282,7 @@ function actualizarSaldo(cuenta, diferencia) {
     })
 }
 
-function getCuentaDestino(alias) {
+function getCuentaDestinoByAlias(alias) {
     let cuenta;
     $.ajax({
         url: 'http://localhost:8080/Banco-FVM/rest/cuentas/alias/' + alias,
@@ -275,4 +296,12 @@ function getCuentaDestino(alias) {
         }
     })
     return cuenta;
+}
+
+function mostrarInfoCuenta(cuenta) {
+    $(".infoCuenta").removeClass('no-mostrar')
+    $("#aliasCuenta").text(cuenta.aliasCuenta)
+    $("#idCuenta").text('ID de la cuenta: ' + cuenta.id)
+    $("#saldoCuenta").text('Saldo de la cuenta: ' + cuenta.saldo)
+    $("#idCliente").text('ID del cliente: ' + cuenta.idCliente)
 }
