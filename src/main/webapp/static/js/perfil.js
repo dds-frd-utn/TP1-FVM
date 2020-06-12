@@ -116,7 +116,7 @@ function setClienteInfo(cliente) {
 
 function getUltimosMovimientos(idCuenta, cantidad) {
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/transacciones/ultimas/'+idCuenta+'/'+cantidad,
+        url: 'http://localhost:8080/TP1-FVM/rest/transacciones/ultimas/'+idCuenta+'/'+cantidad,
         contentType: 'application/json',
         dataType: 'json',
         type: 'get',
@@ -152,7 +152,7 @@ function mostrarCuentas(cuentas) {
 
 function mostrarBonos() {
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/bonos',
+        url: 'http://localhost:8080/TP1-FVM/rest/bonos',
         type: 'get',
         contentType: 'application/json',
         dataType: 'json',
@@ -169,7 +169,7 @@ function mostrarBonos() {
 function getSession() {
     let cliente;
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/VerSession',
+        url: 'http://localhost:8080/TP1-FVM/VerSession',
         type: 'get',
         contentType: 'application/json',
         dataType: 'json',
@@ -187,7 +187,7 @@ function getSession() {
 function verificarSaldo(origen, monto) {
     let suficiente = false
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/'+origen,
+        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/'+origen,
         type:'get',
         contentType: 'application/json',
         dataType: 'json',
@@ -210,7 +210,7 @@ function realizarTransaccion(origen, destino, monto) {
     };
     
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/transacciones/realizar',
+        url: 'http://localhost:8080/TP1-FVM/rest/transacciones/realizar',
         type: 'post',
         contentType: 'application/json',
         dataType: 'json',
@@ -227,7 +227,7 @@ function realizarTransaccion(origen, destino, monto) {
 function getCuentas(idCliente) {
     let cuentas = new Array()
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/clientes/'+idCliente,
+        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/clientes/'+idCliente,
         type: 'get',
         contentType: 'application/json',
         dataType: 'json',
@@ -245,7 +245,7 @@ function getCuentas(idCliente) {
 function getBono(idBono) {
     let bono;
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/bonos/'+idBono,
+        url: 'http://localhost:8080/TP1-FVM/rest/bonos/'+idBono,
         type:'get',
         contentType: 'application/json',
         dataType: 'json',
@@ -269,7 +269,7 @@ function actualizarSaldo(cuenta, diferencia) {
 
     //enviar informacion mediante ajax
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/' + cuenta.id,
+        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/' + cuenta.id,
         type: 'put',
         contentType: 'application/json',
         dataType: 'json',
@@ -285,7 +285,7 @@ function actualizarSaldo(cuenta, diferencia) {
 function getCuentaDestinoByAlias(alias) {
     let cuenta;
     $.ajax({
-        url: 'http://localhost:8080/Banco-FVM/rest/cuentas/alias/' + alias,
+        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/alias/' + alias,
         type: 'get',
         contentType: 'application/json',
         dataType: 'json',

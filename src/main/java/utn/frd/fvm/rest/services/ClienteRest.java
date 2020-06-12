@@ -90,7 +90,8 @@ public class ClienteRest {
                 .put("usuario",usuario)
                 .put("nombre", result.getNombre())
                 .put("direccion", result.getDireccion())
-                .put("password",password);
+                .put("password",password)
+                .put("error_code", 0);
             
             return jsonResponse.toString();
         } catch(NoResultException e) {
