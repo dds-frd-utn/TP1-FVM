@@ -47,7 +47,7 @@ public class ClienteRest {
     }
     
     //actualizar entidades
-    @PATCH
+    @PUT
     @Consumes({MediaType.APPLICATION_JSON})
     @Path("/{id}")
     public void edit(@PathParam("id")int id, Cliente cliente){
