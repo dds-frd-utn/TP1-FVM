@@ -8,7 +8,6 @@ package utn.frd.fvm.rest.services;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;

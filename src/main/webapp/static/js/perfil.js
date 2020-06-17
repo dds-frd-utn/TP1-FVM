@@ -1,44 +1,37 @@
 $(document).ready(function() {
     
-    let cliente = getSession()
+    let cliente = getSession();
     
     //Muestro la informacion del cliente
-    setClienteInfo(cliente)
+    setClienteInfo(cliente);
     
     let cuentas = getCuentas(cliente.idCliente);
     //Agrego las cuentas del cliente a los desplegables
     mostrarCuentas(cuentas);
     //Agrego los bonos al desplegable
-    mostrarBonos()
+    mostrarBonos();
     
     //Gestionar cuentas
     $("#verDatosCuenta").click(function(e) {
         e.preventDefault();
-        let idCuenta = $("#selectCuentasGestionarCuentas option").filter(':selected').val()
-        let cuentaActual = cuentas.find(cuenta => cuenta.id == idCuenta)
-        mostrarInfoCuenta(cuentaActual)
-    })
+        let idCuenta = $("#selectCuentasGestionarCuentas option").filter(':selected').val();
+        let cuentaActual = cuentas.find(cuenta => cuenta.id == idCuenta);
+        mostrarInfoCuenta(cuentaActual);
+    });
     
     //Realizar transferencia
     $("#realizar").click(function(e) {
         e.preventDefault();
                 
-        let cuentaOrigen = $('#selectCuentasTransferencia option').filter(':selected').val()
-        let cuentaDestino = $("#cuentaDestino").val().toUpperCase()
-        let monto = parseFloat($("#monto").val())
+        let cuentaOrigen = $('#selectCuentasTransferencia option').filter(':selected').text();
+        console.log(cuentaOrigen);
+        let cuentaDestino = $("#cuentaDestino").val().toUpperCase();
+        let monto = parseFloat($("#monto").val());
 
-        let cuentaActual = cuentas.find(cuenta => cuenta.id == cuentaOrigen)
-        
         if(verificarSaldo(cuentaOrigen, monto)) {
             
-            //Busco la cuenta de destino por el alias
-            let destinoActual = getCuentaDestinoByAlias(cuentaDestino);
-            //Realizar transferencia
-            realizarTransaccion(cuentaOrigen, destinoActual.id, monto);
-            
-            //Actualizar saldos de las cuentas involucradas
-            actualizarSaldo(cuentaActual, -monto);
-            actualizarSaldo(destinoActual, monto);
+            //
+            realizarTransaccion(cuentaOrigen, cuentaDestino, monto);
             window.location.replace('transaccion-realizada.html');
         } else {
            $(".modal").addClass('is-active');
@@ -65,7 +58,7 @@ $(document).ready(function() {
             $(".modal").addClass('is-active')
         }
         
-    })
+    });
     
     //Ver ultimos n movimientos 
     $("#verUltimosMovimientos").click(function(){
@@ -73,7 +66,7 @@ $(document).ready(function() {
         console.log(idCuenta)
         let cantidad = parseInt($("#cantidad").val())
         getUltimosMovimientos(idCuenta, cantidad)
-    })
+    });
     
     //Botones del menu lateral
     $("#btn-gestionar-cuentas").click(function() {
@@ -82,30 +75,30 @@ $(document).ready(function() {
         $("#bonos").addClass('no-mostrar')
         $("#ultimos-movimientos").addClass('no-mostrar')
 
-    })
+    });
     
     $("#btn-transferencia").click(function() {
         $("#transferencia").removeClass('no-mostrar')
         $("#ultimos-movimientos").addClass('no-mostrar')
         $("#bonos").addClass('no-mostrar')
         $("#gestionarCuentas").addClass('no-mostrar')
-    })
+    });
     
     $("#btn-bonos").click(function() {
         $("#bonos").removeClass('no-mostrar')
         $("#ultimos-movimientos").addClass('no-mostrar')
         $("#transferencia").addClass('no-mostrar')
         $("#gestionarCuentas").addClass('no-mostrar')
-    })
+    });
     
     $("#btn-ultimos-movimientos").click(function() {
         $("#ultimos-movimientos").removeClass('no-mostrar')
         $("#bonos").addClass('no-mostrar')
         $("#transferencia").addClass('no-mostrar')
         $("#gestionarCuentas").addClass('no-mostrar')
-    })
+    });
     
-})
+});
 
 function setClienteInfo(cliente) {
     $(".id-cliente").text(cliente.idCliente)
@@ -123,7 +116,6 @@ function getUltimosMovimientos(idCuenta, cantidad) {
         success: function(movimientos) {
             for(m in movimientos) {
                 let mov = movimientos[m]
-                console.log(mov.fecha)
                 let htmlAppend = '\
                     <br><div class="card">\n\
                         <div class="card-header">\n\
@@ -185,18 +177,18 @@ function getSession() {
 }
 
 function verificarSaldo(origen, monto) {
-    let suficiente = false
+    let suficiente = false;
     $.ajax({
-        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/'+origen,
+        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/alias/'+origen,
         type:'get',
         contentType: 'application/json',
         dataType: 'json',
         async: false,
         success: function(response) {
-            suficiente = response.saldo >= monto
+            suficiente = response.saldo >= monto;
         }
-    })
-    return suficiente
+    });
+    return suficiente;
 }
 
 function realizarTransaccion(origen, destino, monto) {
@@ -215,17 +207,17 @@ function realizarTransaccion(origen, destino, monto) {
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify(transferencia),
-        success: function(res) {
+        success: function() {
             console.log("Transferencia realizada");
         },
         error: function(error) {
             console.log(error);
         }
-    })
+    });
 }
 
 function getCuentas(idCliente) {
-    let cuentas = new Array()
+    let cuentas = new Array();
     $.ajax({
         url: 'http://localhost:8080/TP1-FVM/rest/cuentas/clientes/'+idCliente,
         type: 'get',
@@ -233,12 +225,12 @@ function getCuentas(idCliente) {
         dataType: 'json',
         async: false,
         success: function(data) {
-            cuentas = data
+            cuentas = data;
         },
         error: function(error) {
             //console.log(error)
         }
-    })
+    });
     return cuentas;
 }
 
@@ -251,9 +243,9 @@ function getBono(idBono) {
         dataType: 'json',
         async: false,
         success: function(data) {
-            bono = data
+            bono = data;
         }
-    })
+    });
     return bono;
 }
 
@@ -265,7 +257,7 @@ function actualizarSaldo(cuenta, diferencia) {
         'aliasCuenta': cuenta.aliasCuenta,
         'saldo': nuevoSaldo,
         'idCliente': cuenta.idCliente
-    }
+    };
 
     //enviar informacion mediante ajax
     $.ajax({
@@ -276,10 +268,10 @@ function actualizarSaldo(cuenta, diferencia) {
         data: JSON.stringify(cuentaUpdated),
         async: false,
         error: function(error) {
-            console.log(error)
+            console.log(error);
         }
 
-    })
+    });
 }
 
 function getCuentaDestinoByAlias(alias) {
@@ -291,17 +283,17 @@ function getCuentaDestinoByAlias(alias) {
         dataType: 'json',
         async: false,
         success: function(data) {
-            console.log(data)
-            cuenta = data
+            console.log(data);
+            cuenta = data;
         }
-    })
+    });
     return cuenta;
 }
 
 function mostrarInfoCuenta(cuenta) {
-    $(".infoCuenta").removeClass('no-mostrar')
-    $("#aliasCuenta").text(cuenta.aliasCuenta)
-    $("#idCuenta").text('ID de la cuenta: ' + cuenta.id)
-    $("#saldoCuenta").text('Saldo de la cuenta: ' + cuenta.saldo)
-    $("#idCliente").text('ID del cliente: ' + cuenta.idCliente)
+    $(".infoCuenta").removeClass('no-mostrar');
+    $("#aliasCuenta").text(cuenta.aliasCuenta);
+    $("#idCuenta").text('ID de la cuenta: ' + cuenta.id);
+    $("#saldoCuenta").text('Saldo de la cuenta: ' + cuenta.saldo);
+    $("#idCliente").text('ID del cliente: ' + cuenta.idCliente);
 }

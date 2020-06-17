@@ -29,6 +29,7 @@ public class HttpConnection {
             URL url = new URL(urlParam);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod(method);
+            con.setDoOutput(true);
             if(payload.length() > 0) {
                 con.setFixedLengthStreamingMode(payload.toString().getBytes().length);
             }

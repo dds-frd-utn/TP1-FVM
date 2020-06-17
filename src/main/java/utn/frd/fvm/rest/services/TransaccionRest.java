@@ -79,19 +79,53 @@ public class TransaccionRest {
     @Path("/realizar")
     public String realizarTransaccion(String transaccion) {
         JSONObject transaccionJson = new JSONObject(transaccion);
-        int cuentaOrigen = transaccionJson.getInt("cuentaOrigen");
-        int cuentaDestino = transaccionJson.getInt("cuentaDestino");
-        int tipoTransaccion = transaccionJson.getInt("tipoTransaccion");
-        float monto = transaccionJson.getFloat("monto");
-        Date fecha = new Date();
-        
-        //Transaccion a realizar
-        Transaccion transaccionObject = new Transaccion(cuentaOrigen,cuentaDestino,monto,tipoTransaccion,fecha);
-        
-        ejbTransaccionFacade.create(transaccionObject);
-        
-        return "Transaccion realizada";
 
+        //Obtengo las cuentas involucradas
+        HttpConnection con = new HttpConnection();
+        String origenString = con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/alias/"+transaccionJson.getString("cuentaOrigen"), "GET", new JSONObject());
+        String destinoString = con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/alias/"+transaccionJson.getString("cuentaDestino"), "GET", new JSONObject());
+        
+        JSONObject origen = new JSONObject(origenString);
+        JSONObject destino = new JSONObject(destinoString);
+
+        //Verifico si el origen tiene saldo suficiente
+        if(origen.getInt("saldo") > transaccionJson.getInt("monto")) {
+            //Veo el tipo de transaccion
+            float monto = transaccionJson.getInt("monto");
+            switch(transaccionJson.getInt("tipoTransaccion")) {
+                case 0: //Transferencia
+                    break;
+                case 1: //Compra - Venta (Impuestos)
+                    float impuesto = 0.05f;
+                    monto = transaccionJson.getInt("monto") * impuesto;
+                    break;
+                case 2: //Compra de bonos
+                    break;
+            }
+            
+            //Realizo la transaccion
+            int cuentaOrigen = origen.getInt("id");
+            int cuentaDestino = destino.getInt("id");
+            float montoTotal = monto;
+            int tipoTransaccion = transaccionJson.getInt("tipoTransaccion");
+            Date fecha = new Date();
+            Transaccion transaccionObject = new Transaccion(cuentaOrigen,cuentaDestino,montoTotal,tipoTransaccion,fecha);
+            ejbTransaccionFacade.create(transaccionObject);
+            
+            //Actualizo los saldos de las cuentas
+            
+            float nuevoSaldoOrigen = origen.getInt("saldo") - montoTotal;
+            float nuevoSaldoDestino = destino.getInt("saldo") + monto;
+            origen.put("saldo", nuevoSaldoOrigen);
+            destino.put("saldo", nuevoSaldoDestino);
+            
+            con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/"+origen.getInt("id"), "PUT", origen);
+            con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/"+destino.getInt("id"), "PUT", destino);
+
+        } else {
+            return "Saldo insuficiente";
+        }
+        return "Transaccion realizada";
     }
     
     //Ultimas transacciones realizadas
