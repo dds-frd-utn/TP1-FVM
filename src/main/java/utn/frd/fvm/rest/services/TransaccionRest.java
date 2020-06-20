@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import utn.frd.fvm.utils.HttpConnection;
 import utn.frd.fvm.entity.Transaccion;
@@ -129,7 +130,7 @@ public class TransaccionRest {
     }
     
     //Ultimas transacciones realizadas
-    @Path("/ultimas/{idCuenta}/{cantidad}")
+    @Path("/{idCuenta}/ultimas/{cantidad}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getUltimasTransacciones(@PathParam("idCuenta") int id, @PathParam("cantidad") int cantidad) {
@@ -138,7 +139,7 @@ public class TransaccionRest {
         query.setMaxResults(cantidad);
         List<Transaccion> ultimas = query.getResultList();
 
-        JSONObject jsonArray = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
         JSONObject jsonElement;
 
         for(Transaccion t : ultimas){
@@ -148,9 +149,8 @@ public class TransaccionRest {
                     .put("cuentaDestino", t.getCuentaDestino())
                     .put("monto", t.getMonto())
                     .put("fecha",t.getFecha())
-                    .put("tipoTransaccion", t.getTipoTransaccion())
-                    ;
-            jsonArray.put(String.valueOf(t.getId()), jsonElement);
+                    .put("tipoTransaccion", t.getTipoTransaccion());
+            jsonArray.put(jsonElement);
         }
 
         return jsonArray.toString();

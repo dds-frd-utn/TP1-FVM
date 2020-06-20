@@ -1,5 +1,5 @@
 .navbar {
-    background: linear-gradient(to top right, #524ad0 10%, #D099FA);
+    background: linear-gradient(to top right, #006db3 10%, #039be5);
 }
 
 .navbar a h1 {
@@ -7,7 +7,7 @@
 }
 
 .primary-color {
-    background: linear-gradient(to top right, #524ad0 10%, #d099fa);
+    background: linear-gradient(to top right, #006db3 10%, #039be5);
     color: #fff;
 }
 

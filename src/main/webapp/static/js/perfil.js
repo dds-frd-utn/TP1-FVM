@@ -109,7 +109,7 @@ function setClienteInfo(cliente) {
 
 function getUltimosMovimientos(idCuenta, cantidad) {
     $.ajax({
-        url: 'http://localhost:8080/TP1-FVM/rest/transacciones/ultimas/'+idCuenta+'/'+cantidad,
+        url: 'http://localhost:8080/TP1-FVM/rest/transacciones/'+idCuenta+'/ultimas/'+cantidad,
         contentType: 'application/json',
         dataType: 'json',
         type: 'get',
