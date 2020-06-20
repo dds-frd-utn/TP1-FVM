@@ -134,24 +134,27 @@ public class TransaccionRest {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getUltimasTransacciones(@PathParam("idCuenta") int id, @PathParam("cantidad") int cantidad) {
-        //Filtrar las transacciones por su idCuenta
-        Query query = ejbTransaccionFacade.getEntityManager().createQuery("SELECT c from Transaccion c WHERE c.cuentaOrigen = "+id+" OR c.cuentaDestino = "+id+" ORDER BY c.fecha DESC");
+        String superQuery = "SELECT t.fecha, t.monto, co.aliasCuenta, cd.aliasCuenta, t.cuentaOrigen FROM Transaccion t"
+                + " LEFT JOIN Cuenta co on t.cuentaOrigen=co.id"
+                + " LEFT JOIN Cuenta cd on t.cuentaDestino=cd.id"
+                + " WHERE t.cuentaOrigen="+id+" OR t.cuentaDestino="+id;
+        Query query = ejbTransaccionFacade.getEntityManager().createQuery(superQuery);
         query.setMaxResults(cantidad);
-        List<Transaccion> ultimas = query.getResultList();
+        List<Object[]> ultimas = query.getResultList(); //me devuelve un [Ljava.lang.Object
 
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonElement;
 
-        for(Transaccion t : ultimas){
-            jsonElement = new JSONObject()
-                    .put("id", t.getId())
-                    .put("cuentaOrigen",t.getCuentaOrigen())
-                    .put("cuentaDestino", t.getCuentaDestino())
-                    .put("monto", t.getMonto())
-                    .put("fecha",t.getFecha())
-                    .put("tipoTransaccion", t.getTipoTransaccion());
-            jsonArray.put(jsonElement);
-        }
+          for(Object[] item : ultimas) {
+              jsonElement = new JSONObject();
+              jsonElement
+                        .put("fecha", item[0])
+                        .put("monto", item[1])
+                        .put("aliasOrigen", item[2])
+                        .put("aliasDestino", item[3])
+                        .put("idOrigen", item[4]);
+              jsonArray.put(jsonElement);
+          }
 
         return jsonArray.toString();
     }

@@ -123,8 +123,8 @@ function getUltimosMovimientos(idCuenta, cantidad) {
                         </div>\n\
                         <div class="card-content">\n\
                             <div class="content">\n\
-                                <p>Origen: '+mov.cuentaOrigen+'</p>\n\
-                                <p>Destino: '+mov.cuentaDestino+'</p>\n\
+                                <p>Origen: '+mov.aliasOrigen+'</p>\n\
+                                <p>Destino: '+mov.aliasDestino+'</p>\n\
                                 <p>Monto: '+mov.monto+'</p></div>\n\
                             </div>\n\
                         </div>\n\
