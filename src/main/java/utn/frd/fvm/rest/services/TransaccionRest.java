@@ -83,8 +83,8 @@ public class TransaccionRest {
 
         //Obtengo las cuentas involucradas
         HttpConnection con = new HttpConnection();
-        String origenString = con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/alias/"+transaccionJson.getString("cuentaOrigen"), "GET", new JSONObject());
-        String destinoString = con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/alias/"+transaccionJson.getString("cuentaDestino"), "GET", new JSONObject());
+        String origenString = con.httpRequest(con.getURL()+"cuentas/alias/"+transaccionJson.getString("cuentaOrigen"), "GET", new JSONObject());
+        String destinoString = con.httpRequest(con.getURL()+"cuentas/alias/"+transaccionJson.getString("cuentaDestino"), "GET", new JSONObject());
         
         JSONObject origen = new JSONObject(origenString);
         JSONObject destino = new JSONObject(destinoString);
@@ -120,8 +120,8 @@ public class TransaccionRest {
             origen.put("saldo", nuevoSaldoOrigen);
             destino.put("saldo", nuevoSaldoDestino);
             
-            con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/"+origen.getInt("id"), "PUT", origen);
-            con.httpRequest("http://localhost:8080/TP1-FVM/rest/cuentas/"+destino.getInt("id"), "PUT", destino);
+            con.httpRequest(con.getURL()+"cuentas/"+origen.getInt("id"), "PUT", origen);
+            con.httpRequest(con.getURL()+"cuentas/"+destino.getInt("id"), "PUT", destino);
 
         } else {
             return "Saldo insuficiente";

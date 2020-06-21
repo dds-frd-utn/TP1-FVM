@@ -49,19 +49,20 @@
                 <div class="columns is-centered">
                     <div class="column is-2">
                         <aside class="menu">
-                            <p class="menu-label">
+                            <p class="is-centered">
                               Mi Cuenta
                             </p>
                             <ul class="menu-list">
-                                <li id="btn-gestionar-cuentas"><a>Gestionar cuentas</a></li>
-                                <li id="btn-ultimos-movimientos"><a>Ultimos movimientos</a></li>
-                                <li id="btn-transferencia"><a>Transferencia</a></li>
-                                <li id="btn-bonos"><a>Bonos</a></li>
+                                <li data-target="gestionarCuentas" class="nav-link"><a>Gestionar cuentas</a></li>
+                                <li data-target="realizarTransferencia"><a>Realizar Transferencia</a></li>
+                                <li data-target="ultimosMovimientos"><a>Ultimos movimientos</a></li>
+                                <li data-target="comprarBonos"><a>Comprar Bonos</a></li>
+                                <li data-target="verBonos"><a>Ver Bonos</a></li>
                             </ul>
                         </aside>
                     </div>
                     <!-- Gestionar cuentas -->
-                    <div id="gestionarCuentas" class="column is-6">
+                    <div id="gestionarCuentas" class="componente column is-7">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-header-title">Gestionar cuentas</div>
@@ -104,7 +105,7 @@
                         </div>
                     </div>
                     <!-- Transferencias -->
-                    <div id="transferencia" class="column is-6 no-mostrar">
+                    <div id="realizarTransferencia" class="componente column is-7">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-header-title">Realizar transferencia</div>
@@ -143,7 +144,7 @@
                         </div>
                     </div>
                     <!-- Compra de bonos -->
-                    <div id="bonos" class="column is-6 no-mostrar">
+                    <div id="comprarBonos" class="column is-7 componente">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-header-title">Comprar Bonos</div>
@@ -178,7 +179,7 @@
                                                     <input id="cantidadBonos" class="input" type="text" placeholder="Cantidad de bonos">
                                                 </div>
                                             </div>
-                                            <button id="comprarBonos" class="button primary-color">Comprar Bonos</button>
+                                            <button id="btnComprarBonos" class="button primary-color">Comprar Bonos</button>
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +187,7 @@
                         </div>
                     </div>
                     <!-- Ver ultimos movimientos -->
-                    <div id="ultimos-movimientos" class="column is-6 no-mostrar">
+                    <div id="ultimosMovimientos" class="column is-7 componente">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-header-title">Ultimos Movimientos</div>
@@ -220,8 +221,35 @@
                             </div>
                         </div>
                     </div>
+                    <div id="verBonos" class="column is-7 componente">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-header-title">Mis Bonos</div>
+                            </div>
+                            <div class="card-content">
+                                <div class="content">
+                                    <div class="columns is-centered">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Compra</th>
+                                                    <th>Venta</th>
+                                                    <th>Vencimiento</th>
+                                                    <th>Ganancia</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="infoBonos">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Informacion personal -->
-                    <div class="column is-4">
+                    <div class="column is-3">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-header-title">Informacion Personal</div>

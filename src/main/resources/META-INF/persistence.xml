@@ -7,5 +7,6 @@
     <class>utn.frd.fvm.entity.Cuenta</class>
     <class>utn.frd.fvm.entity.Transaccion</class>
     <class>utn.frd.fvm.entity.Bonos</class>
+    <class>utn.frd.fvm.entity.Inversion</class>
   </persistence-unit>
 </persistence>

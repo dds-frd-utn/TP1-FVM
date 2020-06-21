@@ -5,6 +5,9 @@ $(document).ready(function() {
     //Muestro la informacion del cliente
     setClienteInfo(cliente);
     
+    //get info de mis bonos
+    getInfoBonos(cliente.idCliente);
+    
     let cuentas = getCuentas(cliente.idCliente);
     //Agrego las cuentas del cliente a los desplegables
     mostrarCuentas(cuentas);
@@ -23,15 +26,14 @@ $(document).ready(function() {
     $("#realizar").click(function(e) {
         e.preventDefault();
                 
-        let cuentaOrigen = $('#selectCuentasTransferencia option').filter(':selected').text();
-        console.log(cuentaOrigen);
+        let aliasOrigen = $('#selectCuentasTransferencia option').filter(':selected').text();
         let cuentaDestino = $("#cuentaDestino").val().toUpperCase();
         let monto = parseFloat($("#monto").val());
 
-        if(verificarSaldo(cuentaOrigen, monto)) {
+        if(verificarSaldo(aliasOrigen, monto)) {
             
             //
-            realizarTransaccion(cuentaOrigen, cuentaDestino, monto);
+            realizarTransaccion(aliasOrigen, cuentaDestino, monto, 0);
             window.location.replace('transaccion-realizada.html');
         } else {
            $(".modal").addClass('is-active');
@@ -40,71 +42,50 @@ $(document).ready(function() {
     });
     
     //Realizar compra de bonos
-    $("#comprarBonos").click(function() {
-        let cuentaOrigen = $('#selectCuentasCompraBonos option').filter(':selected').val()
-        let idBono = $("#selectBono option").filter(':selected').val()
-        let cantidad = $("#cantidadBonos").val()
+    $("#btnComprarBonos").click(function() {
+        let idOrigen = $('#selectCuentasCompraBonos option').filter(':selected').val();
+        let aliasOrigen = $('#selectCuentasCompraBonos option').filter(':selected').text();
+        let idBono = $("#selectBono option").filter(':selected').val();
+        let cantidad = parseInt($("#cantidadBonos").val());
+        console.log(typeof cantidad)
         
-        let cuentaActual = cuentas.find(cuenta => cuenta.id == cuentaOrigen)
         
-        let infoBono = getBono(idBono)
-        let monto = infoBono.precioCompra * cantidad
-        if(verificarSaldo(cuentaOrigen, monto)) {
-            realizarTransaccion(cuentaOrigen, 0, monto)
-            
-            actualizarSaldo(cuentaActual, -monto)
-            window.location.replace('transaccion-realizada.html')
+        let infoBono = getBono(idBono);
+        let monto = infoBono.precioCompra * cantidad;
+        if(verificarSaldo(aliasOrigen, monto)) {
+            realizarTransaccion(aliasOrigen, "BANCO.FVM.BONOS", monto, 2);
+            console.log(cliente.idCliente)
+            registrarInversion(cantidad, idBono, cliente.idCliente);
+            alert("Confirmar")
+            window.location.replace('transaccion-realizada.html');
         } else {
-            $(".modal").addClass('is-active')
+            $(".modal").addClass('is-active');
         }
         
     });
     
     //Ver ultimos n movimientos 
     $("#verUltimosMovimientos").click(function(){
-        let idCuenta = $('#selectCuentasUltMov option').filter(':selected').val()
+        let idCuenta = $('#selectCuentasUltMov option').filter(':selected').val();
         console.log(idCuenta)
-        let cantidad = parseInt($("#cantidad").val())
-        getUltimosMovimientos(idCuenta, cantidad)
+        let cantidad = parseInt($("#cantidad").val());
+        getUltimosMovimientos(idCuenta, cantidad);
     });
     
-    //Botones del menu lateral
-    $("#btn-gestionar-cuentas").click(function() {
-        $("#gestionarCuentas").removeClass('no-mostrar')
-        $("#transferencia").addClass('no-mostrar')
-        $("#bonos").addClass('no-mostrar')
-        $("#ultimos-movimientos").addClass('no-mostrar')
-
-    });
-    
-    $("#btn-transferencia").click(function() {
-        $("#transferencia").removeClass('no-mostrar')
-        $("#ultimos-movimientos").addClass('no-mostrar')
-        $("#bonos").addClass('no-mostrar')
-        $("#gestionarCuentas").addClass('no-mostrar')
-    });
-    
-    $("#btn-bonos").click(function() {
-        $("#bonos").removeClass('no-mostrar')
-        $("#ultimos-movimientos").addClass('no-mostrar')
-        $("#transferencia").addClass('no-mostrar')
-        $("#gestionarCuentas").addClass('no-mostrar')
-    });
-    
-    $("#btn-ultimos-movimientos").click(function() {
-        $("#ultimos-movimientos").removeClass('no-mostrar')
-        $("#bonos").addClass('no-mostrar')
-        $("#transferencia").addClass('no-mostrar')
-        $("#gestionarCuentas").addClass('no-mostrar')
+    //Botones del menu
+    $(".menu-list > li").click(function() {
+        let id = $(this).data("target"); //Uso el data target para saber que boton clickie
+        $(".componente").hide(); //Escondo todos
+        $("#"+id).show(); //Muestro el que corresponde al boton clickeado
     });
     
 });
 
 function setClienteInfo(cliente) {
-    $(".id-cliente").text(cliente.idCliente)
-    $(".id-usuario").text(cliente.usuario)
-    $(".id-nombre").text(cliente.nombre)
-    $(".id-direccion").text(cliente.direccion)
+    $(".id-cliente").text(cliente.idCliente);
+    $(".id-usuario").text(cliente.usuario);
+    $(".id-nombre").text(cliente.nombre);
+    $(".id-direccion").text(cliente.direccion);
 }
 
 function getUltimosMovimientos(idCuenta, cantidad) {
@@ -115,7 +96,7 @@ function getUltimosMovimientos(idCuenta, cantidad) {
         type: 'get',
         success: function(movimientos) {
             for(m in movimientos) {
-                let mov = movimientos[m]
+                let mov = movimientos[m];
                 let htmlAppend = '\
                     <br><div class="card">\n\
                         <div class="card-header">\n\
@@ -129,7 +110,7 @@ function getUltimosMovimientos(idCuenta, cantidad) {
                             </div>\n\
                         </div>\n\
                     </div>'
-                $(".lista-ultimos-mov").append(htmlAppend)
+                $(".lista-ultimos-mov").append(htmlAppend);
             }
         }
     })
@@ -150,12 +131,12 @@ function mostrarBonos() {
         dataType: 'json',
         success: function(bonos) {
             for(b in bonos) {
-                let bono = bonos[b]
+                let bono = bonos[b];
                 let option = new Option(bono.nombre+' - $'+bono.precioCompra,bono.id); 
                 $('#selectBono').append($(option));
             }
         }
-    })
+    });
 }
 
 function getSession() {
@@ -167,19 +148,19 @@ function getSession() {
         dataType: 'json',
         async: false,
         success: function(data) {
-            cliente = data
+            cliente = data;
         },
         error: function(error) {
-            console.log(error)
+            console.log(error);
         }
-    })
+    });
     return cliente;
 }
 
-function verificarSaldo(origen, monto) {
+function verificarSaldo(aliasOrigen, monto) {
     let suficiente = false;
     $.ajax({
-        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/alias/'+origen,
+        url: 'http://localhost:8080/TP1-FVM/rest/cuentas/alias/'+aliasOrigen,
         type:'get',
         contentType: 'application/json',
         dataType: 'json',
@@ -191,13 +172,13 @@ function verificarSaldo(origen, monto) {
     return suficiente;
 }
 
-function realizarTransaccion(origen, destino, monto) {
+function realizarTransaccion(aliasOrigen, aliasDestino, monto, tipo) {
 
     let transferencia = {
-        "cuentaOrigen": origen,
-        "cuentaDestino": destino,
+        "cuentaOrigen": aliasOrigen,
+        "cuentaDestino": aliasDestino,
         "monto": monto,
-        "tipoTransaccion": 0,
+        "tipoTransaccion": tipo,
         "fecha": Date.now()
     };
     
@@ -296,4 +277,54 @@ function mostrarInfoCuenta(cuenta) {
     $("#idCuenta").text('ID de la cuenta: ' + cuenta.id);
     $("#saldoCuenta").text('Saldo de la cuenta: ' + cuenta.saldo);
     $("#idCliente").text('ID del cliente: ' + cuenta.idCliente);
+}
+
+function getInfoBonos(idCliente) {
+    $.ajax({
+        url: 'http://localhost:8080/TP1-FVM/rest/inversiones/bonos/'+idCliente,
+        type: 'get',
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(bonos) {
+           let appendBono;
+            for(i in bonos) {
+                let bono = bonos[i];
+                appendBono = "<tr>\n\
+                    <td>"+bono.nombre+"</td>\n\
+                    <td>"+bono.cantidad+"</td>\n\
+                    <td>"+bono.precioCompra+"</td>\n\
+                    <td>"+bono.precioPago+"</td>\n\
+                    <td>"+bono.vencimiento+"</td>\n\
+                    <td>"+bono.ganancia+"</td>\n\
+                </tr>";
+                $(".infoBonos").append(appendBono);
+            }
+        },
+        error: function(error) {console.log(error);}
+    });
+}
+
+function mostrarInfoBonos(bonos) {
+   
+}
+    
+function registrarInversion(cantidad, idBono, idCliente) {
+    let inversion = {
+        "cantidadTitulos": cantidad,
+        "idTitulo": idBono,
+        "idCliente": idCliente
+    };
+    $.ajax({
+        url: 'http://localhost:8080/TP1-FVM/rest/inversiones',
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(inversion),
+        success: function(data) {
+            console.log("bono vendido");
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
 }

@@ -6,6 +6,30 @@
     color: #fff;
 }
 
+#realizarTransferencia, #ultimosMovimientos, #verBonos, #comprarBonos {
+    display: none;
+}
+
+.menu {
+    background: linear-gradient(to top right, #006db3 10%, #039be5);
+    padding-left: 0.5em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    border-radius: 4px;
+    box-shadow: 0 0 5px 2px #ccc;
+}
+
+.menu p {
+    background-color: #fffffd;
+    padding: 0.3em 0.2em;
+    border-radius: 3px 0 0 3px;
+    box-shadow: -2px 1px 6px 0px #353535;
+}
+
+.menu a {
+    color: #fff;
+}
+
 .primary-color {
     background: linear-gradient(to top right, #006db3 10%, #039be5);
     color: #fff;

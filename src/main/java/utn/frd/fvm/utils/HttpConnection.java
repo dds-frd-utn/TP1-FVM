@@ -60,6 +60,9 @@ public class HttpConnection {
             Logger.getLogger(HttpConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-        
+    }
+    
+    public String getURL() {
+        return "http://localhost:8080/TP1-FVM/rest/";
     }
 }
