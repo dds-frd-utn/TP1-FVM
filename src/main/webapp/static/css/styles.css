@@ -20,14 +20,21 @@
 }
 
 .menu p {
-    background-color: #fffffd;
+    font-weight: bold;
+    background-color: #f5f5f5;
     padding: 0.3em 0.2em;
     border-radius: 3px 0 0 3px;
-    box-shadow: -2px 1px 6px 0px #353535;
+    box-shadow: -2px 1px 6px 0px #546e7a;
 }
 
 .menu a {
     color: #fff;
+    transition: 0.2s background-color;
+}
+
+.menu a:hover {
+    background-color: #fff !important;
+    transition: 0.2s;
 }
 
 .primary-color {
@@ -52,16 +59,11 @@ a {
     margin-top: 1.5em;
 }
 
-.insuficiente {
-    color: red;
-    border-color: red;
-}
-
 .modal-content {
     background-color: #fff;
     border-radius: 4px;
     padding: 1.2em;
-    color: #c8102e;
+    color: #00c853;
 }
 
 .no-mostrar {

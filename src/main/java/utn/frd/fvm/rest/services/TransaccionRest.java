@@ -1,5 +1,6 @@
 package utn.frd.fvm.rest.services;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -88,6 +89,9 @@ public class TransaccionRest {
         
         JSONObject origen = new JSONObject(origenString);
         JSONObject destino = new JSONObject(destinoString);
+        
+        JSONObject response = new JSONObject();
+        response.put("error_code", 0);
 
         //Verifico si el origen tiene saldo suficiente
         if(origen.getInt("saldo") > transaccionJson.getInt("monto")) {
@@ -95,12 +99,15 @@ public class TransaccionRest {
             float monto = transaccionJson.getInt("monto");
             switch(transaccionJson.getInt("tipoTransaccion")) {
                 case 0: //Transferencia
+                    response.put("descripcion", "Transferencia Realizada");
                     break;
                 case 1: //Compra - Venta (Impuestos)
                     float impuesto = 0.05f;
                     monto = transaccionJson.getInt("monto") * impuesto;
+                    response.put("descripcion", "Compra/Venta Realizada");
                     break;
                 case 2: //Compra de bonos
+                    response.put("descripcion", "Compra de bonos realizada");
                     break;
             }
             
@@ -109,7 +116,8 @@ public class TransaccionRest {
             int cuentaDestino = destino.getInt("id");
             float montoTotal = monto;
             int tipoTransaccion = transaccionJson.getInt("tipoTransaccion");
-            Date fecha = new Date();
+            LocalDate localDate = LocalDate.now();
+            Date fecha = java.sql.Date.valueOf(localDate);
             Transaccion transaccionObject = new Transaccion(cuentaOrigen,cuentaDestino,montoTotal,tipoTransaccion,fecha);
             ejbTransaccionFacade.create(transaccionObject);
             
@@ -122,11 +130,12 @@ public class TransaccionRest {
             
             con.httpRequest(con.getURL()+"cuentas/"+origen.getInt("id"), "PUT", origen);
             con.httpRequest(con.getURL()+"cuentas/"+destino.getInt("id"), "PUT", destino);
-
+            
         } else {
-            return "Saldo insuficiente";
+            response.put("error_code", 1).put("descripcion", "Saldo insuficiente");
+            return response.toString();
         }
-        return "Transaccion realizada";
+        return response.toString();
     }
     
     //Ultimas transacciones realizadas
@@ -137,7 +146,8 @@ public class TransaccionRest {
         String superQuery = "SELECT t.fecha, t.monto, co.aliasCuenta, cd.aliasCuenta, t.cuentaOrigen FROM Transaccion t"
                 + " LEFT JOIN Cuenta co on t.cuentaOrigen=co.id"
                 + " LEFT JOIN Cuenta cd on t.cuentaDestino=cd.id"
-                + " WHERE t.cuentaOrigen="+id+" OR t.cuentaDestino="+id;
+                + " WHERE t.cuentaOrigen="+id+" OR t.cuentaDestino="+id
+                + " ORDER BY t.fecha DESC";
         Query query = ejbTransaccionFacade.getEntityManager().createQuery(superQuery);
         query.setMaxResults(cantidad);
         List<Object[]> ultimas = query.getResultList(); //me devuelve un [Ljava.lang.Object
