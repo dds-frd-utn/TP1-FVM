@@ -33,7 +33,8 @@ public class VerSession extends HttpServlet {
         
         try {
             usuario
-                .put("idCliente",Integer.parseInt((String) currentSession.getAttribute("idCliente")))
+                .put("idCliente", currentSession.getAttribute("idCliente"))
+//                .put("idCliente",Integer.parseInt((String) currentSession.getAttribute("idCliente")))
                 .put("nombre", (String) currentSession.getAttribute("nombre"))
                 .put("usuario", (String) currentSession.getAttribute("usuario"))
                 .put("direccion", (String) currentSession.getAttribute("direccion"))

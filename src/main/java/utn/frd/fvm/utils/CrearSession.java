@@ -27,7 +27,7 @@ public class CrearSession extends HttpServlet {
         
         HttpSession currentSession = request.getSession(true);
         
-        String idCliente = request.getParameter("id");
+        int idCliente = Integer.parseInt(request.getParameter("id"));
         String nombre = request.getParameter("nombre");
         String usuario = request.getParameter("usuario");
         String direccion = request.getParameter("direccion");

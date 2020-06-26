@@ -6,71 +6,81 @@ $(document).ready(function() {
         contentType: 'application/json',
         dataType: 'json',
         success: function(cliente) {
-            console.log(cliente.idCliente);
             
-            //Muestro la informacion del cliente
-            setClienteInfo(cliente);
+            if(cliente.idCliente) {
             
-            //set bonos del cliente
-            setBonosCliente(cliente.idCliente);
-            
-            //Get cuentas para los desplegables
-            setSelectCuentas(cliente.idCliente);
-            
-            //Get bonso para los desplegables
-            setSelectBonos();
-            
-            //Gestionar cuentas
-            $("#verDatosCuenta").click(function(e) {
-                e.preventDefault();
-                let idCuenta = $("#selectCuentasGestionarCuentas option").filter(':selected').val();
-                mostrarInfoCuenta(idCuenta);
-            });
-            
-            //Realizar transferencia
-            $("#realizar").click(function(e) {
-                e.preventDefault();
+                //Muestro la informacion del cliente
+                setClienteInfo(cliente);
 
-                let aliasOrigen = $('#selectCuentasTransferencia option').filter(':selected').text();
-                let cuentaDestino = $("#cuentaDestino").val().toUpperCase();
-                let monto = parseFloat($("#monto").val());
+                //set bonos del cliente
+                setBonosCliente(cliente.idCliente);
 
-                realizarTransaccion(aliasOrigen, cuentaDestino, monto, 0);
+                //Get cuentas para los desplegables
+                setSelectCuentas(cliente.idCliente);
 
-            });
+                //Get bonso para los desplegables
+                setSelectBonos();
 
-            //Realizar compra de bonos
-            $("#btnComprarBonos").click(function() {
-                let idOrigen = $('#selectCuentasCompraBonos option').filter(':selected').val();
-                let aliasOrigen = $('#selectCuentasCompraBonos option').filter(':selected').text();
+                $(".logout").click(function(e) {
+                    e.preventDefault();
+                    console.log('pasa')
+                    logout();
+                });
 
-                let idBono = $("#selectBono option").filter(':selected').val();
-                let cantidad = parseInt($("#cantidadBonos").val());
-                
-                let infoBono = getBono(idBono);
-                let monto = infoBono.precioCompra * cantidad;
+                //Gestionar cuentas
+                $("#verDatosCuenta").click(function(e) {
+                    e.preventDefault();
+                    let idCuenta = $("#selectCuentasGestionarCuentas option").filter(':selected').val();
+                    mostrarInfoCuenta(idCuenta);
+                });
 
-                realizarTransaccionBonos(aliasOrigen, "BANCO.FVM.BONOS", monto, 2, cantidad, idBono, cliente.idCliente);
+                //Realizar transferencia
+                $("#realizar").click(function(e) {
+                    e.preventDefault();
 
-            });
+                    let aliasOrigen = $('#selectCuentasTransferencia option').filter(':selected').text();
+                    let cuentaDestino = $("#cuentaDestino").val().toUpperCase();
+                    let monto = parseFloat($("#monto").val());
 
-            //Ver ultimos n movimientos 
-            $("#verUltimosMovimientos").click(function(){
-                let idCuenta = $('#selectCuentasUltMov option').filter(':selected').val();
-                let cantidad = parseInt($("#cantidad").val());
-                getUltimosMovimientos(idCuenta, cantidad);
-            });
+                    realizarTransaccion(aliasOrigen, cuentaDestino, monto, 0);
 
-            //Botones del menu
-            $(".menu-list > li").click(function() {
-                let id = $(this).data("target"); //Uso el data target para saber que boton clickie
-                $(".componente").hide(); //Escondo todos
-                $("#"+id).slideDown(600); //Muestro el que corresponde al boton clickeado
-            });
+                });
+
+                //Realizar compra de bonos
+                $("#btnComprarBonos").click(function() {
+                    let idOrigen = $('#selectCuentasCompraBonos option').filter(':selected').val();
+                    let aliasOrigen = $('#selectCuentasCompraBonos option').filter(':selected').text();
+
+                    let idBono = $("#selectBono option").filter(':selected').val();
+                    let cantidad = parseInt($("#cantidadBonos").val());
+
+                    let infoBono = getBono(idBono);
+                    let monto = infoBono.precioCompra * cantidad;
+
+                    realizarTransaccionBonos(aliasOrigen, "BANCO.FVM.BONOS", monto, 2, cantidad, idBono, cliente.idCliente);
+
+                });
+
+                //Ver ultimos n movimientos 
+                $("#verUltimosMovimientos").click(function(){
+                    let idCuenta = $('#selectCuentasUltMov option').filter(':selected').val();
+                    let cantidad = parseInt($("#cantidad").val());
+                    getUltimosMovimientos(idCuenta, cantidad);
+                });
+
+                //Botones del menu
+                $(".menu-list > li").click(function() {
+                    let id = $(this).data("target"); //Uso el data target para saber que boton clickie
+                    $(".componente").hide(); //Escondo todos
+                    $("#"+id).slideDown(600); //Muestro el que corresponde al boton clickeado
+                });
+            } else {
+                window.location = 'login.html';
+            }
         },
         error: function(error) {
             console.log(error);
-        }
+        },
     });
 });
 
@@ -127,12 +137,24 @@ function setSelectBonos() {
     });
 }
 
+function logout() {
+    $.ajax({
+        url: 'http://localhost:8080/TP1-FVM/logout',
+        type: 'get',
+        success: function() {
+            window.location = "login.html";
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+}
+
 function getSession() {
     $.ajax({
         url: 'http://localhost:8080/TP1-FVM/VerSession',
         type: 'get',
-        contentType: 'application/json',
-        dataType: 'json',
+        dataType: 'xml',
         success: function(data) {
             cliente = data;
         },
