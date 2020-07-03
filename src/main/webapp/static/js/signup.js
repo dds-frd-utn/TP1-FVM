@@ -1,4 +1,4 @@
-$(".registrarse").click(function(e) {
+$(".signup").click(function(e) {
        e.preventDefault();
        var nombre = $("#nombre").val();
        var usuario = $("#usuario").val();
