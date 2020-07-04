@@ -65,9 +65,12 @@
                     <div id="gestionarCuentas" class="componente column is-7">
                         <div class="card">
                             <div class="card-header">
-                                <div class="card-header-title">Gestionar cuentas</div>
+                                <div class="card-header-title">
+                                    <span>Gestionar Cuentas</span>
+                                    <button id="btnNuevaCuentaBancaria" class="button primary-color">Abrir cuenta bancaria</button>
+                                </div>
                             </div>
-                            <div class="card-content">
+                            <div class="card-content cuentasActivas">
                                 <div class="content">
                                     <div class="columns is-centered">
                                         <div class="column is-8">
@@ -82,6 +85,28 @@
                                                 </div>
                                             </div>
                                             <button id="verDatosCuenta" class="button primary-color">Ver datos de cuenta</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-content nuevaCuenta no-mostrar">
+                                <div class="content">
+                                    <div class="columns is-centered">
+                                        <div class="column is-8">
+                                            <p class="subtitle">Abrir nueva cuenta</p>
+                                            <div class="field">
+                                                <label>Alias</label>
+                                                <div class="control">
+                                                    <input id="alias" class="input" type="text" placeholder="Alias">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label>Saldo</label>
+                                                <div class="control">
+                                                    <input id="saldo" class="input" type="text" placeholder="Saldo">
+                                                </div>
+                                            </div>
+                                            <button id="btnAbrirCuentaBancaria" class="signup primary-color button">Abrir Cuenta</button>
                                         </div>
                                     </div>
                                 </div>

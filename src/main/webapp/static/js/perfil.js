@@ -33,6 +33,14 @@ $(document).ready(function() {
                     let idCuenta = $("#selectCuentasGestionarCuentas option").filter(':selected').val();
                     mostrarInfoCuenta(idCuenta);
                 });
+                
+                //Nueva cuenta bancaria
+                $("#btnNuevaCuentaBancaria").click(function(e) {
+                    e.preventDefault();
+                    $(".nuevaCuenta").show();
+                    $(".btnNuevaCuentaBancaria").hide();
+                    $(".cuentasActivas").hide();
+                });
 
                 //Realizar transferencia
                 $("#realizar").click(function(e) {
@@ -66,6 +74,18 @@ $(document).ready(function() {
                     let idCuenta = $('#selectCuentasUltMov option').filter(':selected').val();
                     let cantidad = parseInt($("#cantidad").val());
                     getUltimosMovimientos(idCuenta, cantidad);
+                });
+                
+                //Abrir cuenta bancaria
+                $("#btnAbrirCuentaBancaria").click(function() {
+                    let alias = $("#alias").val();
+                    let saldo = parseFloat($("#saldo").val());
+                    console.log("alias: " + alias);
+                    console.log("saldo: " + saldo + " " + typeof saldo);
+                    abrirCuentaBancaria(alias, saldo, cliente.idCliente);
+                    $(".nuevaCuenta").hide();
+                    $(".btnNuevaCuentaBancaria").show();
+                    $(".cuentasActivas").show();
                 });
 
                 //Botones del menu
@@ -276,7 +296,7 @@ function mostrarInfoCuenta(idCuenta) {
             $(".infoCuenta").removeClass('no-mostrar');
             $("#aliasCuenta").text(cuenta.aliasCuenta);
             $("#idCuenta").text('ID de la cuenta: ' + cuenta.id);
-            $("#saldoCuenta").text('Saldo de la cuenta: ' + cuenta.saldo);
+            $("#saldoCuenta").text('Saldo de la cuenta: $' + cuenta.saldo);
             $("#idCliente").text('ID del cliente: ' + cuenta.idCliente);
         },
         error: function(error) {
@@ -338,3 +358,26 @@ function registrarInversion(cantidad, idBono, idCliente) {
         }
     });
 }
+
+function abrirCuentaBancaria(alias, saldo, idCliente) {
+    let nuevaCuenta = {
+        "aliasCuenta": alias,
+        "saldo": saldo,
+        "idCliente": idCliente
+    };
+    $.ajax({
+        url: 'http://localhost:8080/TP1-FVM/rest/cuentas',
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(nuevaCuenta),
+        success: function() {
+            alert('cuenta creada');
+            window.location='perfil.html';
+        },
+        error: function(error) {
+            alert('error')
+            console.log(error)
+        }
+    });
+};
