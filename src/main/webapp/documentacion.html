@@ -49,14 +49,16 @@
             <div class="container">
                 <div class="columns main-wrapper">
                     <div class="column is-3">
-                        <aside class="is-medium menu">
+                        <aside class="is-medium menu menu-container">
                             <p class="menu-label">
-                                categories
+                                categorias
                             </p>
                             <ul class="menu-list">
                                 <li class="is-right"><a href="#clientes" class="is-active"><i class="fas fa-user"></i>  Clientes</a></li>
                                 <li><a href="#cuentas" class="is-active"><i class="fas fa-wallet"></i>  Cuentas</a></li>
+                                <li><a href="#transacciones" class="is-active"><i class="fas fa-exchange-alt"></i>  Transacciones</a></li>
                                 <li><a href="#bonos" class="is-active"><i class="fas fa-money-bill"></i>  Bonos</a></li>
+                                <li><a href="#inversiones" class="is-active"><i class="fas fa-chart-line"></i>  Inversiones</a></li>
                             </ul>
                         </aside>
                     </div>
@@ -67,23 +69,108 @@
                                 <h4>Documentacion clientes</h4>   
                                 <div class="box">
                                     <h4 id="const" class="title is-3">Obtener todos los clientes</h4>
-                                    <pre><code class="language-javascript">http:localhost:8080/FVM/rest/clientes</code></pre>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/FVM/rest/clientes</code></pre>
                                 </div>
                                 <div class="box">
                                     <h4 id="let" class="title is-3">Obtener un cliente por su ID</h4>
-                                    <pre><code class="language-javascript">http:/localhost:8080/FVM/rest/clientes/{id}</code></pre>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/FVM/rest/clientes/{id}</code></pre>
                                 </div>
                                 <div class="box">
                                     <h4 id="let" class="title is-3">Registrar un nuevo cliente</h4>
-                                    <pre><code class="language-javascript">http:/localhost:8080/FVM/rest/clientes</code></pre>
+                                    <pre><code class="language-javascript">'POST': http://localhost:8080/FVM/rest/clientes</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    cuentaOrigen: int, 
+<!--                                 -->    cuentaDestino: int,
+<!--                                 -->    monto: float,
+<!--                                 -->    tipoTransaccion: int,
+<!--                                 -->    fecha: Date
+<!--                                 -->}</pre>
+                                    
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Actualizar datos de cliente</h4>
+                                    <pre><code class="language-javascript">'PUT': http://localhost:8080/FVM/rest/clientes/{idCliente}</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    nombre: String, 
+<!--                                 -->    direccion: String,
+<!--                                 -->    usuario: String,
+<!--                                 -->    password: String,
+<!--                                 -->}</pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Eliminar un cliente</h4>
+                                    <pre><code class="language-javascript">'DELETE': http://localhost:8080/FVM/rest/clientes/{idCliente}</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Autenticar un cliente</h4>
+                                    <pre><code class="language-javascript">'POST': http://localhost:8080/FVM/rest/clientes/login</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    usuario: String, 
+<!--                                 -->    password: String
+<!--                                 -->}</pre>
                                 </div>
                             </div>
                             <div id="cuentas">
                                 <br>
-                                <h4>Documentacion cuentas</h4>   
+                                <h4>Documentacion cuentas</h4>
                                 <div class="box">
-                                    <h4 id="const" class="title is-3">Realizar transferencia</h4>
-                                    <pre><code class="language-javascript">http:localhost:8080/FVM/rest/transacciones/realizar</code></pre>
+                                    <h4 id="const" class="title is-3">Obtener todas las cuentas</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/TP1-FVM/rest/cuentas</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="const" class="title is-3">Obtener cuenta por su ID</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/TP1-FVM/rest/cuentas/{id}</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="const" class="title is-3">Registrar una nueva cuenta</h4>
+                                    <pre><code class="language-javascript">'POST': http://localhost:8080/TP1-FVM/rest/cuentas</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    aliasCuenta: String, 
+<!--                                 -->    saldo: float,
+<!--                                 -->    idCliente: int
+<!--                                 -->}</pre>                                    
+                                </div>
+                                <div class="box">
+                                    <h4 id="const" class="title is-3">Actualizar una cuenta</h4>
+                                    <pre><code class="language-javascript">'PUT': http://localhost:8080/TP1-FVM/rest/cuentas/{id}</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    aliasCuenta: String, 
+<!--                                 -->    saldo: float,
+<!--                                 -->    idCliente: int
+<!--                                 -->}</pre> 
+                                </div>
+                                <div class="box">
+                                    <h4 id="const" class="title is-3">Eliminar una cuenta</h4>
+                                    <pre><code class="language-javascript">'DELETE': http://localhost:8080/TP1-FVM/rest/cuentas/{id}</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="const" class="title is-3">Obtener cuenta por su alias</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/TP1-FVM/rest/cuentas/alias/{alias}</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="const" class="title is-3">Obtener todas las cuentas de un cliente</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/TP1-FVM/rest/cuentas/clientes/{idCliente}</code></pre>
+                                </div>
+                            </div>
+                            <div id="transacciones">
+                                <br>
+                                <h4>Documentacion transacciones</h4> 
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Obtener todas las transacciones</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/FVM/rest/transacciones/</code></pre>
+                                </div> 
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Obtener una transaccion por su ID</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/FVM/rest/transacciones/{id}</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="const" class="title is-3">Realizar una transaccion</h4>
+                                    <pre><code class="language-javascript">'POST': http://localhost:8080/FVM/rest/transacciones/realizar</code></pre>
                                     <pre>
 <!--                                 -->Payload: {
 <!--                                 -->    cuentaOrigen: int, 
@@ -94,15 +181,78 @@
 <!--                                 -->}</pre>
                                 </div>
                                 <div class="box">
-                                    <h4 id="let" class="title is-3">Obtener un cliente por su ID</h4>
-                                    <pre><code class="language-javascript">http:/localhost:8080/FVM/rest/cliente/{id}</code></pre>
+                                    <h4 id="let" class="title is-3">Actualizar una transaccion</h4>
+                                    <pre><code class="language-javascript">'PUT': http://localhost:8080/FVM/rest/transacciones/{id}</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    cuentaOrigen: int, 
+<!--                                 -->    cuentaDestino: int,
+<!--                                 -->    monto: float,
+<!--                                 -->    tipoTransaccion: int,
+<!--                                 -->    fecha: Date
+<!--                                 -->}</pre>
                                 </div>
                                 <div class="box">
-                                    <h4 id="let" class="title is-3">Registrar un nuevo cliente</h4>
-                                    <pre><code class="language-javascript">http:/localhost:8080/FVM/rest/cliente</code></pre>
+                                    <h4 id="let" class="title is-3">Eliminar una transaccion</h4>
+                                    <pre><code class="language-javascript">'DELETE': http://localhost:8080/FVM/rest/transacciones/{id}</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Obtener ultimas n transacciones</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/FVM/rest/transacciones/{idCuenta}/ultimas/{cantidad}</code></pre>
                                 </div>
                             </div>
-                            <h3 class="title is-3">En desarrollo...</h3>
+                            <div id="bonos">
+                                <br>
+                                <h4>Documentacion bonos</h4>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Obtener todos los bonos</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/FVM/rest/bonos</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Obtener bono por id</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/FVM/rest/bonos/{id}</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Registrar un bono</h4>
+                                    <pre><code class="language-javascript">'POST': http://localhost:8080/FVM/rest/bonos</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Actualizar un bono</h4>
+                                    <pre><code class="language-javascript">'PUT': http://localhost:8080/FVM/rest/bonos/{id}</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    nombre: String, 
+<!--                                 -->    precioCompra: float,
+<!--                                 -->    precioPago: float,
+<!--                                 -->    vencimiento: Date,
+<!--                                 -->}</pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Eliminar un bono</h4>
+                                    <pre><code class="language-javascript">'DELETE': http://localhost:8080/FVM/rest/bonos/{id}</code></pre>
+                                </div>
+                            </div>
+                            <div id="inversiones">
+                                <br>
+                                <h4>Documentacion inversiones</h4>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Obtener todas las inversiones</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/TP1-FVM/rest/inversiones</code></pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Registar nueva inversion </h4>
+                                    <pre><code class="language-javascript">'POST': http://localhost:8080/TP1-FVM/rest/inversiones</code></pre>
+                                    <pre>
+<!--                                 -->Payload: {
+<!--                                 -->    cantidadTitulos: int, 
+<!--                                 -->    idTitulo: int,
+<!--                                 -->}</pre>
+                                </div>
+                                <div class="box">
+                                    <h4 id="let" class="title is-3">Obtener inversiones de un cliente</h4>
+                                    <pre><code class="language-javascript">'GET': http://localhost:8080/TP1-FVM/rest/inversiones/bonos/{idCliente}</code></pre>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

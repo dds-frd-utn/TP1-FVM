@@ -26,7 +26,7 @@ import utn.frd.fvm.sessions.CuentaFacade;
  *
  * @author federico
  */
-@Path("cuentas")
+@Path("/cuentas")
 public class CuentaRest {
     @EJB
     private CuentaFacade ejbCuentaFacade;
