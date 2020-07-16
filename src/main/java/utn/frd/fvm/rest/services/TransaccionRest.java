@@ -102,7 +102,7 @@ public class TransaccionRest {
                     response.put("descripcion", "Transferencia Realizada");
                     break;
                 case 1: //Compra - Venta (Impuestos)
-                    float impuesto = 0.05f;
+                    float impuesto = 1.05f;
                     monto = transaccionJson.getInt("monto") * impuesto;
                     response.put("descripcion", "Compra/Venta Realizada");
                     break;
